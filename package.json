@@ -10,14 +10,15 @@
     "lint:style": "stylelint --cache **/*.{vue,css} --ignore-path .gitignore",
     "lint": "yarn lint:js && yarn lint:style",
     "typecheck": "tsc --noEmit",
-    "serve-static": "yarn ws -d ./dist --spa index.html -p 3000"
+    "serve-static": "yarn ws -d ./dist --spa index.html -p 3003"
   },
   "dependencies": {
     "@nuxtjs/composition-api": "^0.21.0",
     "core-js": "^3.9.1",
     "debounce": "^1.2.1",
     "nuxt": "^2.15.2",
-    "nuxt-i18n": "^6.20.4"
+    "nuxt-i18n": "^6.20.4",
+    "vue-fragment": "^1.5.2"
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.13.0",

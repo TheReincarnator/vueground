@@ -23,9 +23,7 @@
           </VCardActions>
         </VCard>
       </VDialog>
-      <VContainer fluid class="px-6 pt-0">
-        <Nuxt />
-      </VContainer>
+      <Nuxt />
     </VMain>
   </VApp>
 </template>

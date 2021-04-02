@@ -1,4 +1,4 @@
-import { ESBuildPlugin, ESBuildMinifyPlugin } from 'esbuild-loader'
+import { ESBuildMinifyPlugin } from 'esbuild-loader'
 
 /** @type {import('@nuxt/types').NuxtConfig} */
 const config = {
@@ -86,7 +86,6 @@ const config = {
     extend(config) {
       config.resolve.extensions.push('.ts', '.tsx')
       const jsxRuleIndex = config.module.rules.findIndex(r => '.jsx'.match(r.test))
-      config.plugins.push(new ESBuildPlugin())
       config.plugins.push(new ESBuildMinifyPlugin())
       config.module.rules.splice(jsxRuleIndex, 1, {
         test: /\.((m?jsx?)|(tsx?))$/,
@@ -102,6 +101,10 @@ const config = {
 
       return config
     },
+  },
+
+  server: {
+    port: 3003,
   },
 
   i18n: {
