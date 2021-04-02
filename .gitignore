@@ -1,0 +1,10 @@
+/node_modules/
+/dist/
+/coverage
+/.vscode
+/.nuxt
+/tsconfig.tsbuildinfo
+/.eslintcache
+/.stylelintcache
+
+.DS_Store
