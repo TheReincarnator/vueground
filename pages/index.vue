@@ -34,10 +34,8 @@ import {
   resetSequence,
   createElement,
   removeElementById,
-  resetToDefaults,
 } from '~/model/element'
 import { LibraryComponent } from '~/model/component'
-import { exampleModel } from '~/model/example'
 
 import Tree from '~/components/Tree/index.vue'
 import Library from '~/components/Library/index.vue'
@@ -57,11 +55,8 @@ export default defineComponent({
     Properties,
   },
   setup() {
-    const elements = reactive<CanvasElements>({ value: exampleModel })
+    const elements = reactive<CanvasElements>({ value: [] })
     resetSequence(elements.value)
-
-    // TODO: Remove
-    resetToDefaults(elements.value)
 
     const openElementIds = ref<number[]>(getElementIds(elements.value))
     const selectedElement = ref<CanvasElement | null>(null)

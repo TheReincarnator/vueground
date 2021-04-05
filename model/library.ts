@@ -1,23 +1,5 @@
 import { LibraryComponent, LibraryProp } from '~/model/component'
 
-function margins(mt: number, mr: number, mb: number, ml: number): LibraryProp[] {
-  return [
-    { id: 'mt', section: 'Margins', name: 'top', type: 'slider', min: -10, max: 10, default: mt },
-    { id: 'mb', name: 'bottom', type: 'slider', min: -10, max: 10, default: mb },
-    { id: 'ml', name: 'left', type: 'slider', min: -10, max: 10, default: ml },
-    { id: 'mr', name: 'right', type: 'slider', min: -10, max: 10, default: mr },
-  ]
-}
-
-function paddings(pt: number, pr: number, pb: number, pl: number): LibraryProp[] {
-  return [
-    { id: 'pt', section: 'Paddings', name: 'top', type: 'slider', min: 0, max: 10, default: pt },
-    { id: 'pb', name: 'bottom', type: 'slider', min: 0, max: 10, default: pb },
-    { id: 'pl', name: 'left', type: 'slider', min: 0, max: 10, default: pl },
-    { id: 'pr', name: 'right', type: 'slider', min: 0, max: 10, default: pr },
-  ]
-}
-
 export const components: LibraryComponent[] = [
   {
     id: 'Text',
@@ -62,8 +44,6 @@ export const components: LibraryComponent[] = [
         required: false,
         default: undefined,
       },
-      ...margins(0, 0, 4, 0),
-      ...paddings(0, 0, 0, 0),
     ],
   },
   {
@@ -136,9 +116,7 @@ export const components: LibraryComponent[] = [
       {
         id: 'cols',
         name: 'Columns',
-        type: 'choice',
-        options: ['auto', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
-        required: false,
+        type: 'cols',
         default: undefined,
       },
       {
@@ -186,8 +164,6 @@ export const components: LibraryComponent[] = [
         min: 0,
         max: 24,
       },
-      ...margins(0, 0, 4, 0),
-      ...paddings(0, 0, 0, 0),
     ],
   },
   {
@@ -232,7 +208,6 @@ export const components: LibraryComponent[] = [
         default: undefined,
         required: false,
       },
-      ...margins(0, 0, 2, 0),
     ],
   },
   {
@@ -270,7 +245,6 @@ export const components: LibraryComponent[] = [
         type: 'boolean',
         default: false,
       },
-      ...margins(0, 0, 2, 0),
     ],
   },
   {
@@ -325,7 +299,6 @@ export const components: LibraryComponent[] = [
         type: 'boolean',
         default: false,
       },
-      ...margins(0, 0, 2, 0),
     ],
   },
   {
@@ -458,7 +431,6 @@ export const components: LibraryComponent[] = [
         type: 'boolean',
         default: false,
       },
-      ...margins(0, 0, 2, 0),
     ],
   },
   {
@@ -506,7 +478,6 @@ export const components: LibraryComponent[] = [
         type: 'boolean',
         default: false,
       },
-      ...margins(0, 0, 2, 0),
     ],
   },
   {
@@ -537,7 +508,6 @@ export const components: LibraryComponent[] = [
         type: 'boolean',
         default: false,
       },
-      ...margins(0, 0, 2, 0),
     ],
   },
   {
@@ -567,7 +537,6 @@ export const components: LibraryComponent[] = [
         type: 'boolean',
         default: false,
       },
-      ...margins(0, 0, 0, 0),
     ],
   },
   {
@@ -609,7 +578,6 @@ export const components: LibraryComponent[] = [
         type: 'boolean',
         default: false,
       },
-      ...margins(0, 0, 2, 0),
     ],
   },
   {
@@ -678,7 +646,6 @@ export const components: LibraryComponent[] = [
         type: 'boolean',
         default: false,
       },
-      ...margins(0, 0, 2, 0),
     ],
   },
   {
@@ -750,7 +717,6 @@ export const components: LibraryComponent[] = [
         min: 0,
         max: 24,
       },
-      ...margins(0, 0, 2, 0),
     ],
   },
   {
@@ -830,7 +796,6 @@ export const components: LibraryComponent[] = [
         min: 0,
         max: 24,
       },
-      ...margins(0, 0, 2, 0),
     ],
   },
   {
@@ -896,10 +861,24 @@ export const components: LibraryComponent[] = [
         type: 'boolean',
         default: false,
       },
-      ...margins(0, 0, 2, 0),
     ],
   },
 ]
+
+const marginsPaddings: LibraryProp[] = [
+  { id: 'mt', section: 'Margins', name: 'top', type: 'margin-y', default: undefined },
+  { id: 'mb', name: 'bottom', type: 'margin-y', default: undefined },
+  { id: 'ml', name: 'left', type: 'margin-x', default: undefined },
+  { id: 'mr', name: 'right', type: 'margin-x', default: undefined },
+  { id: 'pt', section: 'Paddings', name: 'top', type: 'padding', default: undefined },
+  { id: 'pb', name: 'bottom', type: 'padding', default: undefined },
+  { id: 'pl', name: 'left', type: 'padding', default: undefined },
+  { id: 'pr', name: 'right', type: 'padding', default: undefined },
+]
+
+components.forEach(component => {
+  marginsPaddings.forEach(prop => component.props.push(prop))
+})
 
 export function getComponentById(id: string): LibraryComponent {
   const component = components.find(candidate => candidate.id === id)

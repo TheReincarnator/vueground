@@ -39,6 +39,19 @@ export type LibraryProp = {
       min: number
       max: number
     }
+  | { type: 'cols'; default: number | 'auto' | undefined }
+  | {
+      type: 'margin-x'
+      default: number | 'auto' | undefined
+    }
+  | {
+      type: 'margin-y'
+      default: number | undefined
+    }
+  | {
+      type: 'padding'
+      default: number | undefined
+    }
   | {
       type: 'color'
       required: boolean

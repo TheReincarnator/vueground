@@ -7,15 +7,25 @@
     <VForm v-if="selectedElement">
       <div v-for="{ key, prop, value } in elementProps" :key="key">
         <h2 v-if="prop.section" class="text-h3 my-4">{{ prop.section }}</h2>
+
+        <!-- Prop-type "text" -->
         <VTextField v-if="prop.type === 'text'" :label="prop.name" v-model="value.value" />
+
+        <!-- Prop-type "integer" -->
         <VTextField v-if="prop.type === 'integer'" :label="prop.name" v-model="value.value" />
+
+        <!-- Prop-type "boolean" -->
         <VSwitch v-if="prop.type === 'boolean'" :label="prop.name" v-model="value.value" />
+
+        <!-- Prop-type "choice" -->
         <VSelect
           v-if="prop.type === 'choice'"
           :label="prop.name"
           :items="prop.options"
           v-model="value.value"
         />
+
+        <!-- Prop-type "slider" -->
         <VSlider
           v-if="prop.type === 'slider'"
           thumb-label
@@ -28,6 +38,151 @@
           </template>
         </VSlider>
 
+        <!-- Prop-type "cols" -->
+        <VSelect
+          v-if="prop.type === 'cols'"
+          :label="prop.name"
+          :items="['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']"
+          :value="!value.value || value.value === 'auto' ? '' : value.value"
+          @input="value.value = $event"
+        >
+          <template v-slot:prepend>
+            <VBtn
+              small
+              tile
+              :elevation="0"
+              :color="value.value === undefined ? 'primary' : 'grey lighten-3'"
+              class="prop-button"
+              @click="value.value = undefined"
+            >
+              Def
+            </VBtn>
+            <VBtn
+              small
+              tile
+              :elevation="0"
+              :color="value.value === 'auto' ? 'primary' : 'grey lighten-3'"
+              class="prop-button"
+              @click="value.value = 'auto'"
+            >
+              Auto
+            </VBtn>
+          </template>
+        </VSelect>
+
+        <!-- Prop-type "margin-x" -->
+        <VSlider
+          v-if="prop.type === 'margin-x'"
+          thumb-label
+          :min="-10"
+          :max="10"
+          :value="parseInt(value.value, 10) || 0"
+          @input="value.value = $event"
+        >
+          <template v-slot:label>
+            <span style="display: inline-block; min-width: 60px">{{ prop.name }}</span>
+            <VBtn
+              small
+              tile
+              :elevation="0"
+              :color="value.value === undefined ? 'primary' : 'grey lighten-3'"
+              class="prop-button"
+              @click="value.value = undefined"
+            >
+              Def
+            </VBtn>
+            <VBtn
+              small
+              tile
+              :elevation="0"
+              :color="value.value === 0 ? 'primary' : 'grey lighten-3'"
+              class="prop-button"
+              @click="value.value = 0"
+            >
+              None
+            </VBtn>
+            <VBtn
+              small
+              tile
+              :elevation="0"
+              :color="value.value === 'auto' ? 'primary' : 'grey lighten-3'"
+              class="prop-button"
+              @click="value.value = 'auto'"
+            >
+              Auto
+            </VBtn>
+          </template>
+        </VSlider>
+
+        <!-- Prop-type "margin-y" -->
+        <VSlider
+          v-if="prop.type === 'margin-y'"
+          thumb-label
+          :min="-10"
+          :max="10"
+          :value="parseInt(value.value, 10) || 0"
+          @input="value.value = $event"
+        >
+          <template v-slot:label>
+            <span style="display: inline-block; min-width: 60px">{{ prop.name }}</span>
+            <VBtn
+              small
+              tile
+              :elevation="0"
+              :color="value.value === undefined ? 'primary' : 'grey lighten-3'"
+              class="prop-button"
+              @click="value.value = undefined"
+            >
+              Def
+            </VBtn>
+            <VBtn
+              small
+              tile
+              :elevation="0"
+              :color="value.value === 0 ? 'primary' : 'grey lighten-3'"
+              class="prop-button"
+              @click="value.value = 0"
+            >
+              None
+            </VBtn>
+          </template>
+        </VSlider>
+
+        <!-- Prop-type "padding" -->
+        <VSlider
+          v-if="prop.type === 'padding'"
+          thumb-label
+          :min="0"
+          :max="10"
+          :value="parseInt(value.value, 10) || 0"
+          @input="value.value = $event"
+        >
+          <template v-slot:label>
+            <span style="display: inline-block; min-width: 60px">{{ prop.name }}</span>
+            <VBtn
+              small
+              tile
+              :elevation="0"
+              :color="value.value === undefined ? 'primary' : 'grey lighten-3'"
+              class="prop-button"
+              @click="value.value = undefined"
+            >
+              Def
+            </VBtn>
+            <VBtn
+              small
+              tile
+              :elevation="0"
+              :color="value.value === 0 ? 'primary' : 'grey lighten-3'"
+              class="prop-button"
+              @click="value.value = 0"
+            >
+              None
+            </VBtn>
+          </template>
+        </VSlider>
+
+        <!-- Prop-type "color" -->
         <ColorDialog
           v-if="prop.type === 'color'"
           :is-open.sync="colorDialog.isOpen"
@@ -50,9 +205,11 @@
           </VRow>
         </VContainer>
 
+        <!-- Prop-type "icon" -->
         <IconDialog :is-open.sync="iconDialog.isOpen" @select="value.value = $event" />
         <VTextField v-if="prop.type === 'icon'" :label="prop.name" v-model="value.value" />
 
+        <!-- Prop-type "json" -->
         <VTextField v-if="prop.type === 'json'" :label="prop.name" v-model="value.value" />
       </div>
     </VForm>

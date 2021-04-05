@@ -46,13 +46,3 @@ export function removeElementById(elements: CanvasElement[], id: number): void {
     elements.forEach(element => removeElementById(element.children, id))
   }
 }
-
-export function resetToDefaults(elements: CanvasElement[]): void {
-  elements.forEach(element => {
-    element.component.props.forEach(prop => {
-      element.props[prop.id] = clone(prop.default)
-    })
-
-    resetToDefaults(element.children)
-  })
-}
