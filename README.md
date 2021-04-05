@@ -1,4 +1,6 @@
-# backoffice
+# VueGround
+
+A UX design tool and visual playground for Vuetify projects
 
 ## Build Setup
 
