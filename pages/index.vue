@@ -15,7 +15,20 @@
       </VSheet>
     </div>
     <div class="pa-4" style="flex: 10 1 100px">
-      <Canvas :elements="elements.value" :selected-element="selectedElement" />
+      <Canvas
+        v-if="elements.value.length"
+        :elements="elements.value"
+        :selected-element="selectedElement"
+      />
+      <div v-else>
+        <div class="text-h1">Welcome to VueGround</div>
+        <div class="text-subtitle-1">
+          A UX design tool and visual playground for Vuetify projects.
+        </div>
+        <div class="text-body-1 mt-4">
+          Use the Design Library to start sketching.
+        </div>
+      </div>
     </div>
     <div class="d-flex flex-column" style="flex: 1 0 250px">
       <VSheet elevation="8" style="flex: 1 0 0; overflow: auto">

@@ -2,6 +2,7 @@
   <div>
     <h2 class="text-h3 px-4 pt-4 pb-2">Elements</h2>
     <VTreeview
+      v-if="elements.length"
       hoverable
       activatable
       :active="selectedElementIds"
@@ -21,6 +22,9 @@
         <VBtn icon @click="$emit('remove', item)"><VIcon>mdi-delete</VIcon></VBtn>
       </template>
     </VTreeview>
+    <p v-else class="px-4">
+      Click the plus icon in the Design Library to add your first element.
+    </p>
   </div>
 </template>
 
