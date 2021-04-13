@@ -15,7 +15,9 @@
   "dependencies": {
     "@nuxtjs/composition-api": "^0.21.0",
     "core-js": "^3.9.1",
+    "date-fns": "^2.20.3",
     "debounce": "^1.2.1",
+    "file-saver": "^2.0.5",
     "nuxt": "^2.15.2",
     "nuxt-i18n": "^6.20.4",
     "vue-fragment": "^1.5.2"

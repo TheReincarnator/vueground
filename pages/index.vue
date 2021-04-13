@@ -2,10 +2,28 @@
   <div class="d-flex flex-row" style="position: absolute; top: 0; bottom: 0; left: 0; right: 0">
     <div class="d-flex flex-column" style="flex: 1 0 250px">
       <VSheet elevation="8" style="flex: 1 0 0; overflow: auto">
+        <VAppBar style="flex: 0 0 auto">
+          <input ref="inputRef" type="file" style="position: absolute; width: 0; height: 0" />
+          <div class="d-flex justify-space-between" style="width: 100%">
+            <VBtn color="white" @click="onNewModel">
+              <VIcon left>mdi-file-outline</VIcon>
+              New
+            </VBtn>
+            <VBtn color="white" @click="onLoadModel">
+              <VIcon left>mdi-folder-open-outline</VIcon>
+              Load
+            </VBtn>
+            <VBtn color="white" @click="onSaveModel">
+              <VIcon left>mdi-download</VIcon>
+              Save
+            </VBtn>
+          </div>
+        </VAppBar>
         <Tree
           :elements="elements.value"
           :open-element-ids="openElementIds"
           :selected-element="selectedElement"
+          @new="onNewModel"
           @select="onSelectElement"
           @remove="onRemoveElement"
         />
@@ -20,7 +38,7 @@
         :elements="elements.value"
         :selected-element="selectedElement"
       />
-      <div v-else>
+      <div v-else class="mx-2">
         <div class="text-h1">Welcome to VueGround</div>
         <div class="text-subtitle-1">
           A UX design tool and visual playground for Vuetify projects.
@@ -39,7 +57,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref } from '@nuxtjs/composition-api'
+import { defineComponent, onMounted, reactive, ref } from '@nuxtjs/composition-api'
+import { saveAs } from 'file-saver'
+import { format } from 'date-fns'
 
 import {
   CanvasElement,
@@ -47,8 +67,12 @@ import {
   resetSequence,
   createElement,
   removeElementById,
+  serializeModel,
+  parseModel,
 } from '~/model/element'
 import { LibraryComponent } from '~/model/component'
+
+import { useConfirmDialog } from '~/utils/composable/confirmDialog'
 
 import Tree from '~/components/Tree/index.vue'
 import Library from '~/components/Library/index.vue'
@@ -68,11 +92,58 @@ export default defineComponent({
     Properties,
   },
   setup() {
+    const confirmDialog = useConfirmDialog()
+
     const elements = reactive<CanvasElements>({ value: [] })
     resetSequence(elements.value)
 
     const openElementIds = ref<number[]>(getElementIds(elements.value))
     const selectedElement = ref<CanvasElement | null>(null)
+
+    const onNewModel = async () => {
+      if (
+        !(await confirmDialog.open('New model', {
+          message: 'Are you sure to clear all elements and start from scratch?',
+          confirmLabel: 'New Model',
+        }))
+      ) {
+        return
+      }
+
+      elements.value = []
+      openElementIds.value = []
+      selectedElement.value = null
+    }
+
+    const inputRef = ref<HTMLInputElement | null>(null)
+
+    const onLoadModel = () => {
+      const input = inputRef.value as HTMLInputElement
+      input.click()
+    }
+
+    onMounted(() => {
+      const input = inputRef.value as HTMLInputElement
+
+      input.addEventListener('change', () => {
+        if (!input.files || input.files.length === 0) {
+          return
+        }
+
+        const reader = new FileReader()
+        reader.onload = event => {
+          elements.value = parseModel(JSON.parse(event.target!.result as string))
+        }
+        reader.readAsText(input.files.item(0)!)
+      })
+    })
+    const onSaveModel = () => {
+      const blob = new Blob([JSON.stringify(serializeModel(elements.value), undefined, 2)], {
+        type: 'application/json;charset=utf-8',
+      })
+      const dateString = format(new Date(), 'yyyyMMdd-HHmmss')
+      saveAs(blob, `vueground-${dateString}.vgm`)
+    }
 
     const onSelectElement = (element: CanvasElement | null) => {
       selectedElement.value = element
@@ -99,9 +170,13 @@ export default defineComponent({
     }
 
     return {
+      inputRef,
       elements,
       openElementIds,
       selectedElement,
+      onNewModel,
+      onLoadModel,
+      onSaveModel,
       onSelectElement,
       onAddElement,
       onRemoveElement,

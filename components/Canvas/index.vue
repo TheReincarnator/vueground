@@ -189,14 +189,15 @@
 <script lang="ts">
 import { computed, defineComponent, PropType } from '@nuxtjs/composition-api'
 import { Fragment } from 'vue-fragment'
-import { LibraryComponent } from '~/model/component'
 
+import { LibraryComponent } from '~/model/component'
 import { CanvasElement } from '~/model/element'
+import { Json } from '~/types/json'
 
 interface ElementView {
   id: number
   component: LibraryComponent
-  props: Record<string, any>
+  props: Record<string, Json>
   children: CanvasElement[]
   classes: string
 }

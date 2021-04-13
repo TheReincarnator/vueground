@@ -1,5 +1,1 @@
-export default {
-  confirmDialog: {
-    cancel: 'Abbrechen',
-  },
-}
+export default {}

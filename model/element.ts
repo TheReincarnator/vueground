@@ -1,10 +1,12 @@
 import { LibraryComponent } from './component'
+import { getComponentById } from './library'
 import { clone } from '../utils/clone'
+import { Json, JsonArray } from '../types/json'
 
 export interface CanvasElement {
   id: number
   component: LibraryComponent
-  props: Record<string, any>
+  props: Record<string, Json>
   children: CanvasElement[]
 }
 
@@ -45,4 +47,72 @@ export function removeElementById(elements: CanvasElement[], id: number): void {
   } else {
     elements.forEach(element => removeElementById(element.children, id))
   }
+}
+
+function serializeElement(element: CanvasElement): Json {
+  return {
+    id: element.id,
+    component: element.component.id,
+    props: element.props,
+    children: element.children.map(serializeElement),
+  }
+}
+
+export function serializeModel(elements: CanvasElement[]): Json {
+  return {
+    type: 'VueGroundModel',
+    modelVersion: 1,
+    elements: elements.map(serializeElement),
+  }
+}
+
+function isCanvasElement(value: CanvasElement | null): value is CanvasElement {
+  return value !== null
+}
+
+function parseElement(json: Json): CanvasElement | null {
+  const id = json.id
+  if (typeof id !== 'number') {
+    console.warn('Skipping invalid element')
+    return null
+  }
+
+  const componentId = json.component
+  if (typeof componentId !== 'string') {
+    console.warn(`Skipping invalid element ${id}: No component ID`)
+    return null
+  }
+
+  const component = getComponentById(componentId)
+  if (!component) {
+    console.warn(`Skipping invalid element ${id}: Unknown component ${componentId}`)
+    return null
+  }
+
+  const props = json.props
+  if (!props || typeof props !== 'object') {
+    console.warn(`Skipping invalid element ${id}: Props is not an object`)
+    return null
+  }
+
+  const children = json.children
+  if (!Array.isArray(children)) {
+    console.warn(`Skipping invalid element ${id}: Children is not an array`)
+    return null
+  }
+
+  return {
+    id,
+    component,
+    props: props as Record<string, Json>,
+    children: (children as Json[]).map(parseElement).filter(isCanvasElement),
+  }
+}
+
+export function parseModel(json: Json): CanvasElement[] {
+  if (json.type !== 'VueGroundModel' || json.modelVersion !== 1 || !Array.isArray(json.elements)) {
+    throw new Error('This is no VueGround model')
+  }
+
+  return (json.elements as Json[]).map(parseElement).filter(isCanvasElement)
 }

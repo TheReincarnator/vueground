@@ -9,14 +9,12 @@
           <VCardTitle>
             <h2 class="text-h2">{{ confirmDialog.state.title }}</h2>
           </VCardTitle>
-          <VCardText v-if="confirmDialog.state.message">
+          <VCardText v-if="confirmDialog.state.message" class="text-body-1">
             {{ confirmDialog.state.message }}
           </VCardText>
           <VCardActions class="px-4 pb-4">
             <VSpacer />
-            <VBtn type="button" class="ml-4" @click="confirmDialog.cancel">
-              {{ $t('confirmDialog.cancel') }}
-            </VBtn>
+            <VBtn type="button" class="ml-4" @click="confirmDialog.cancel">Cancel</VBtn>
             <VBtn type="button" color="primary" class="ml-4" @click="confirmDialog.confirm">
               {{ confirmDialog.state.confirmLabel }}
             </VBtn>
