@@ -8,7 +8,18 @@
     <VCard>
       <VForm ref="form" @submit.prevent="onSubmit">
         <VCardTitle>
-          <h2 class="text-h2">Select a color</h2>
+          <VContainer class="ma-0 pa-0">
+            <VRow>
+              <VCol>
+                <h2 class="text-h2">Select a color</h2>
+              </VCol>
+              <VCol cols="auto">
+                <VBtn icon class="mt-n2 mr-n2" @click="onClose">
+                  <VIcon color="secondary">mdi-close</VIcon>
+                </VBtn>
+              </VCol>
+            </VRow>
+          </VContainer>
         </VCardTitle>
         <VCardText>
           <div class="mb-4">
@@ -556,14 +567,14 @@ export default defineComponent({
     },
   },
   setup(_props, { emit }) {
+    const onClose = () => emit('update:is-open', false)
+
     const onColor = (color: string) => {
       emit('select', color)
-      emit('is-open', false)
+      emit('update:is-open', false)
     }
 
-    return {
-      onColor,
-    }
+    return { onClose, onColor }
   },
 })
 </script>

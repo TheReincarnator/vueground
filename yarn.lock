@@ -1177,6 +1177,11 @@
   dependencies:
     vary "^1.1.2"
 
+"@mdi/font@^5.9.55":
+  version "5.9.55"
+  resolved "https://artifactory7.sumcumo.net:443/artifactory/api/npm/npm/@mdi/font/-/font-5.9.55.tgz#41acd50b88073ded7095fc3029d8712b6e12f38e"
+  integrity sha1-QazVC4gHPe1wlfwwKdhxK24S844=
+
 "@mdn/browser-compat-data@^2.0.7":
   version "2.0.7"
   resolved "https://artifactory7.sumcumo.net:443/artifactory/api/npm/npm/@mdn/browser-compat-data/-/browser-compat-data-2.0.7.tgz#72ec37b9c1e00ce0b4e0309d753be18e2da12ee3"

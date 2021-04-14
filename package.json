@@ -13,6 +13,7 @@
     "serve-static": "yarn ws -d ./dist --spa index.html -p 3003"
   },
   "dependencies": {
+    "@mdi/font": "^5.9.55",
     "@nuxtjs/composition-api": "^0.21.0",
     "core-js": "^3.9.1",
     "date-fns": "^2.20.3",

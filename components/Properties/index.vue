@@ -186,10 +186,7 @@
         <ColorDialog
           v-if="prop.type === 'color'"
           :is-open.sync="colorDialog.isOpen"
-          @select="
-            value.value = $event
-            colorDialog.isOpen = false
-          "
+          @select="value.value = $event"
         />
         <VContainer v-if="prop.type === 'color'" class="ma-0 pa-0">
           <VRow align="center" class="ma-0 pa-0">
@@ -206,8 +203,24 @@
         </VContainer>
 
         <!-- Prop-type "icon" -->
-        <IconDialog :is-open.sync="iconDialog.isOpen" @select="value.value = $event" />
-        <VTextField v-if="prop.type === 'icon'" :label="prop.name" v-model="value.value" />
+        <IconDialog
+          v-if="prop.type === 'icon'"
+          :is-open.sync="iconDialog.isOpen"
+          @select="value.value = $event"
+        />
+        <VContainer v-if="prop.type === 'icon'" class="ma-0 pa-0">
+          <VRow align="center" class="ma-0 pa-0">
+            <VCol class="ma-0 pa-0">
+              <VTextField :label="prop.name" v-model="value.value" />
+            </VCol>
+            <VCol cols="auto" class="ma-0 py-0 pr-0 pl-4">
+              <VBtn small @click="iconDialog.open">
+                <VIcon left>mdi-dots-grid</VIcon>
+                Select
+              </VBtn>
+            </VCol>
+          </VRow>
+        </VContainer>
 
         <!-- Prop-type "json" -->
         <VTextField v-if="prop.type === 'json'" :label="prop.name" v-model="value.value" />
