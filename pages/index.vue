@@ -32,14 +32,19 @@
         <Library :selected-element="selectedElement" @add="onAddElement" />
       </VSheet>
     </div>
-    <div class="pa-4" style="flex: 10 1 100px" @mousedown.stop="onSelectElement(null)">
-      <Canvas
-        v-if="elements.value.length"
-        :elements="elements.value"
-        :selected-element="selectedElement"
-        @select="onSelectElement"
-      />
-      <div v-else class="mx-2">
+    <div
+      class="d-flex flex-column"
+      style="flex: 10 1 100px"
+      @mousedown.stop="onSelectElement(null)"
+    >
+      <div v-if="elements.value.length" class="pa-4" style="flex: 1 0 0">
+        <Canvas
+          :elements="elements.value"
+          :selected-element="selectedElement"
+          @select="onSelectElement"
+        />
+      </div>
+      <div v-else class="py-4 px-6" style="flex: 1 0 0">
         <div class="text-h1">Welcome to VueGround</div>
         <div class="text-subtitle-1">
           A UX design tool and visual playground for Vuetify projects.
@@ -48,6 +53,9 @@
           Use the Design Library to start sketching.
         </div>
       </div>
+      <VSheet color="grey darken-2" style="flex: 0 0 250px">
+        <VueCode :elements="elements.value" />
+      </VSheet>
     </div>
     <div class="d-flex flex-column" style="flex: 1 0 250px">
       <VSheet elevation="8" style="flex: 1 0 0; overflow: auto">
@@ -78,6 +86,7 @@ import { useConfirmDialog } from '~/utils/composable/confirmDialog'
 import Tree from '~/components/Tree/index.vue'
 import Library from '~/components/Library/index.vue'
 import Canvas from '~/components/Canvas/index.vue'
+import VueCode from '~/components/VueCode/index.vue'
 import Properties from '~/components/Properties/index.vue'
 
 interface CanvasElements {
@@ -90,6 +99,7 @@ export default defineComponent({
     Tree,
     Library,
     Canvas,
+    VueCode,
     Properties,
   },
   setup() {

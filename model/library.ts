@@ -1,4 +1,5 @@
 import { LibraryComponent, LibraryProp } from '~/model/component'
+import { CanvasElement } from './element'
 
 export const components: LibraryComponent[] = [
   {
@@ -45,6 +46,12 @@ export const components: LibraryComponent[] = [
         default: undefined,
       },
     ],
+
+    vueCode: (e: CanvasElement) => [
+      `<div${classes(e, prefixed('text-', e.props.type), suffixed(e.props.color, '--text'))}>`,
+      `  ${e.props.text}`,
+      `</div>`,
+    ],
   },
   {
     id: 'VContainer',
@@ -59,7 +66,18 @@ export const components: LibraryComponent[] = [
         type: 'boolean',
         default: false,
       },
+      { id: 'mt', section: 'Margins', name: 'top', type: 'margin-y', default: undefined },
+      { id: 'mb', name: 'bottom', type: 'margin-y', default: undefined },
+      { id: 'ml', name: 'left', type: 'margin-x', default: undefined },
+      { id: 'mr', name: 'right', type: 'margin-x', default: undefined },
+      { id: 'pt', section: 'Paddings', name: 'top', type: 'padding', default: undefined },
+      { id: 'pb', name: 'bottom', type: 'padding', default: undefined },
+      { id: 'pl', name: 'left', type: 'padding', default: 0 },
+      { id: 'pr', name: 'right', type: 'padding', default: 0 },
     ],
+
+    // TODO: v-bind="props"
+    vueCode: (e: CanvasElement) => [`<VContainer${classes(e)}>`, `  {{children}}`, `</VContainer>`],
   },
   {
     id: 'VRow',
@@ -105,6 +123,9 @@ export const components: LibraryComponent[] = [
         default: false,
       },
     ],
+
+    // TODO: v-bind="rowProps"
+    vueCode: (e: CanvasElement) => [`<VRow${classes(e)}>`, `  {{children}}`, `</VRow>`],
   },
   {
     id: 'VCol',
@@ -128,6 +149,9 @@ export const components: LibraryComponent[] = [
         default: undefined,
       },
     ],
+
+    // TODO: v-bind="colProps"
+    vueCode: (e: CanvasElement) => [`<VCol${classes(e)}>`, `  {{children}}`, `</VCol>`],
   },
   {
     id: 'VCard',
@@ -164,6 +188,18 @@ export const components: LibraryComponent[] = [
         min: 0,
         max: 24,
       },
+    ],
+
+    // TODO: v-bind="props"
+    vueCode: (e: CanvasElement) => [
+      `<VCard${classes(e)}>`,
+      `  <VCardTitle>`,
+      `    <h2 class="text-h2">${e.props.title}</h2>`,
+      `  </VCardTitle>`,
+      `  <VCardText>`,
+      `    {{children}}`,
+      `  <VCardText>`,
+      `</VCard>`,
     ],
   },
   {
@@ -209,6 +245,22 @@ export const components: LibraryComponent[] = [
         required: false,
       },
     ],
+
+    vueCode: (e: CanvasElement) => [
+      '<VChip' +
+        classes(e) +
+        prop('x-small', e.props.size === 'x-small') +
+        prop('small', e.props.size === 'small') +
+        prop('large', e.props.size === 'large') +
+        prop('x-large', e.props.size === 'x-large') +
+        prop('color', e.props.color) +
+        prop('outlined', e.props.outlined) +
+        prop('close', !!e.props.icon) +
+        prop('close-icon', e.props.icon) +
+        '>',
+      `  ${e.props.label}`,
+      `</VChip>`,
+    ],
   },
   {
     id: 'VIcon',
@@ -245,6 +297,19 @@ export const components: LibraryComponent[] = [
         type: 'boolean',
         default: false,
       },
+    ],
+
+    // TODO: v-bind="props"
+    vueCode: (e: CanvasElement) => [
+      '<VIcon' +
+        classes(e) +
+        prop('x-small', e.props.size === 'x-small') +
+        prop('small', e.props.size === 'small') +
+        prop('large', e.props.size === 'large') +
+        prop('x-large', e.props.size === 'x-large') +
+        '>',
+      `  ${e.props.icon}`,
+      `</VIcon>`,
     ],
   },
   {
@@ -300,6 +365,9 @@ export const components: LibraryComponent[] = [
         default: false,
       },
     ],
+
+    // TODO: v-bind="props"
+    vueCode: (e: CanvasElement) => [`<VTextField${classes(e)}>`, `</VTextField>`],
   },
   {
     id: 'VSelect',
@@ -432,6 +500,9 @@ export const components: LibraryComponent[] = [
         default: false,
       },
     ],
+
+    // TODO: v-bind="props"
+    vueCode: (e: CanvasElement) => [`<VSelect${classes(e)}>`, `</VSelect>`],
   },
   {
     id: 'VCheckbox',
@@ -479,6 +550,13 @@ export const components: LibraryComponent[] = [
         default: false,
       },
     ],
+
+    // TODO: v-bind="props"
+
+    vueCode: (e: CanvasElement) => [
+      `<VCheckbox${classes(e)}${prop('input-value', e.props.selected)}>`,
+      `</VCheckbox>`,
+    ],
   },
   {
     id: 'VRadioGroup',
@@ -509,6 +587,17 @@ export const components: LibraryComponent[] = [
         default: false,
       },
     ],
+    // TODO: v-bind="props"
+
+    vueCode: (e: CanvasElement) => [
+      '<VRadioGroup' +
+        classes(e) +
+        prop('column', e.props.direction === 'column') +
+        prop('row', e.props.direction !== 'column') +
+        '>',
+      `  {{children}}`,
+      `</VRadioGroup>`,
+    ],
   },
   {
     id: 'VRadio',
@@ -538,6 +627,9 @@ export const components: LibraryComponent[] = [
         default: false,
       },
     ],
+
+    // TODO: v-bind="props"
+    vueCode: (e: CanvasElement) => [`<VRadio${classes(e)}>`, `</VRadio>`],
   },
   {
     id: 'VSwitch',
@@ -578,6 +670,12 @@ export const components: LibraryComponent[] = [
         type: 'boolean',
         default: false,
       },
+    ],
+
+    // TODO: v-bind="props"
+    vueCode: (e: CanvasElement) => [
+      `<VSwitch${classes(e)}${prop('input-value', e.props.selected)}>`,
+      `</VSwitch>`,
     ],
   },
   {
@@ -647,6 +745,9 @@ export const components: LibraryComponent[] = [
         default: false,
       },
     ],
+
+    // TODO: v-bind="props"
+    vueCode: (e: CanvasElement) => [`<VSlider${classes(e)}>`, `</VSlider>`],
   },
   {
     id: 'VBtn',
@@ -717,6 +818,26 @@ export const components: LibraryComponent[] = [
         min: 0,
         max: 24,
       },
+    ],
+
+    // TODO: v-bind="props"
+    vueCode: (e: CanvasElement) => [
+      '<VBtn' +
+        classes(e) +
+        prop('x-small', e.props.size === 'x-small') +
+        prop('small', e.props.size === 'small') +
+        prop('large', e.props.size === 'large') +
+        prop('x-large', e.props.size === 'x-large') +
+        prop('icon', (!!e.props.iconLeft || !!e.props.iconRight) && !e.props.label) +
+        '>',
+      e.props.iconLeft
+        ? `  <VIcon${prop('left', !!e.props.label)}>${e.props.iconLeft}</VIcon>`
+        : '',
+      typeof e.props.label === 'string' ? `  ${e.props.label}` : '',
+      e.props.iconRight
+        ? `  <VIcon${prop('right', !!e.props.label)}>${e.props.iconRight}</VIcon>`
+        : '',
+      `</VBtn>`,
     ],
   },
   {
@@ -797,6 +918,9 @@ export const components: LibraryComponent[] = [
         max: 24,
       },
     ],
+
+    // TODO: v-bind="props"
+    vueCode: (e: CanvasElement) => [`<VList${classes(e)}>`, `  {{children}}`, `</VList>`],
   },
   {
     id: 'VTable',
@@ -862,6 +986,10 @@ export const components: LibraryComponent[] = [
         default: false,
       },
     ],
+
+    // TODO: v-bind="props"
+
+    vueCode: (e: CanvasElement) => [`<VTable${classes(e)}>`, `  {{children}}`, `</VTable>`],
   },
 ]
 
@@ -877,7 +1005,11 @@ const marginsPaddings: LibraryProp[] = [
 ]
 
 components.forEach(component => {
-  marginsPaddings.forEach(prop => component.props.push(prop))
+  marginsPaddings.forEach(prop => {
+    if (!component.props.find(candidate => candidate.name === prop.name)) {
+      component.props.push(prop)
+    }
+  })
 })
 
 export function getComponentById(id: string): LibraryComponent {
@@ -894,4 +1026,108 @@ export function getPermittedComponents(container: LibraryComponent | null): Libr
     return container.children.map(childId => getComponentById(childId))
   }
   return components.filter(component => component.toplevel)
+}
+
+function convertMarginPadding(value: any): string {
+  const valueNumber = parseInt(value)
+  if (Number.isNaN(valueNumber)) {
+    return ''
+  }
+
+  return valueNumber < 0 ? 'n' + String(-valueNumber) : String(valueNumber)
+}
+
+function toString(value: any): string {
+  if (typeof value === 'string') {
+    return value
+  }
+  if (typeof value === 'number' || typeof value === 'boolean') {
+    return String(value)
+  }
+
+  return ''
+}
+
+function prefixed(prefix: string, value: any): string {
+  return value ? `${prefix}${value}` : ''
+}
+
+function suffixed(value: any, suffix: string): string {
+  return value ? `${value}${suffix}` : ''
+}
+
+function classes(element: CanvasElement, ...values: any[]): string {
+  const mt = convertMarginPadding(element.props.mt)
+  const mb = convertMarginPadding(element.props.mb)
+  const ml = convertMarginPadding(element.props.ml)
+  const mr = convertMarginPadding(element.props.mr)
+
+  let margin: string[] = []
+  if (mt && mb && ml && mr && mt === mb && mt === mr && mt === ml) {
+    margin.push(prefixed('ma-', convertMarginPadding(element.props.mt)))
+  } else {
+    if (mt && mb && mt === mb) {
+      margin.push(prefixed('my-', convertMarginPadding(element.props.mt)))
+    } else {
+      margin.push(prefixed('mt-', convertMarginPadding(element.props.mt)))
+      margin.push(prefixed('mb-', convertMarginPadding(element.props.mb)))
+    }
+
+    if (ml && mr && ml === mr) {
+      margin.push(prefixed('mx-', convertMarginPadding(element.props.ml)))
+    } else {
+      margin.push(prefixed('ml-', convertMarginPadding(element.props.ml)))
+      margin.push(prefixed('mr-', convertMarginPadding(element.props.mr)))
+    }
+  }
+
+  const pt = convertMarginPadding(element.props.pt)
+  const pb = convertMarginPadding(element.props.pb)
+  const pl = convertMarginPadding(element.props.pl)
+  const pr = convertMarginPadding(element.props.pr)
+
+  let padding: string[] = []
+  if (pt && pb && pl && pr && pt === pb && pt === pr && pt === pl) {
+    padding.push(prefixed('pa-', convertMarginPadding(element.props.pt)))
+  } else {
+    if (pt && pb && pt === pb) {
+      padding.push(prefixed('py-', convertMarginPadding(element.props.pt)))
+    } else {
+      padding.push(prefixed('pt-', convertMarginPadding(element.props.pt)))
+      padding.push(prefixed('pb-', convertMarginPadding(element.props.pb)))
+    }
+
+    if (pl && pr && pl === pr) {
+      padding.push(prefixed('px-', convertMarginPadding(element.props.pl)))
+    } else {
+      padding.push(prefixed('pl-', convertMarginPadding(element.props.pl)))
+      padding.push(prefixed('pr-', convertMarginPadding(element.props.pr)))
+    }
+  }
+
+  const jointValues = [...values, ...margin, ...padding]
+    .filter(Boolean)
+    .map(toString)
+    .join(' ')
+    .trim()
+  return jointValues ? ` class="${jointValues}"` : ''
+}
+
+function styles(...values: any[]): string {
+  const jointValues = values
+    .filter(Boolean)
+    .map(toString)
+    .join(' ')
+    .trim()
+  return jointValues ? ` style="${jointValues}"` : ''
+}
+
+function prop(propName: string, value: any): string {
+  if (!value) {
+    return ''
+  } else if (value === true) {
+    return ` ${propName}`
+  } else {
+    return ` ${propName}="${value}"`
+  }
 }

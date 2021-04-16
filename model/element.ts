@@ -1,12 +1,12 @@
 import { LibraryComponent } from './component'
 import { getComponentById } from './library'
+import { JsonArray, JsonObject, JsonValue } from '../types/json'
 import { clone } from '../utils/clone'
-import { Json, JsonArray } from '../types/json'
 
 export interface CanvasElement {
   id: number
   component: LibraryComponent
-  props: Record<string, Json>
+  props: JsonObject
   children: CanvasElement[]
 }
 
@@ -64,7 +64,7 @@ export function removeElementById(elements: CanvasElement[], id: number): void {
   }
 }
 
-function serializeElement(element: CanvasElement): Json {
+function serializeElement(element: CanvasElement): JsonObject {
   return {
     id: element.id,
     component: element.component.id,
@@ -73,7 +73,7 @@ function serializeElement(element: CanvasElement): Json {
   }
 }
 
-export function serializeModel(elements: CanvasElement[]): Json {
+export function serializeModel(elements: CanvasElement[]): JsonObject {
   return {
     type: 'VueGroundModel',
     modelVersion: 1,
@@ -85,7 +85,7 @@ function isCanvasElement(value: CanvasElement | null): value is CanvasElement {
   return value !== null
 }
 
-function parseElement(json: Json): CanvasElement | null {
+function parseElement(json: JsonObject): CanvasElement | null {
   const id = json.id
   if (typeof id !== 'number') {
     console.warn('Skipping invalid element')
@@ -119,15 +119,15 @@ function parseElement(json: Json): CanvasElement | null {
   return {
     id,
     component,
-    props: props as Record<string, Json>,
-    children: (children as Json[]).map(parseElement).filter(isCanvasElement),
+    props: props as JsonObject,
+    children: (children as JsonObject[]).map(parseElement).filter(isCanvasElement),
   }
 }
 
-export function parseModel(json: Json): CanvasElement[] {
+export function parseModel(json: JsonObject): CanvasElement[] {
   if (json.type !== 'VueGroundModel' || json.modelVersion !== 1 || !Array.isArray(json.elements)) {
     throw new Error('This is no VueGround model')
   }
 
-  return (json.elements as Json[]).map(parseElement).filter(isCanvasElement)
+  return (json.elements as JsonObject[]).map(parseElement).filter(isCanvasElement)
 }

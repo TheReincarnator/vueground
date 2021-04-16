@@ -195,12 +195,12 @@ import { Fragment } from 'vue-fragment'
 
 import { LibraryComponent } from '~/model/component'
 import { CanvasElement, getElementById } from '~/model/element'
-import { Json } from '~/types/json'
+import { JsonObject } from '~/types/json'
 
 interface ElementView {
   id: number
   component: LibraryComponent
-  props: Record<string, Json>
+  props: JsonObject
   children: CanvasElement[]
   classes: string
 }
@@ -259,7 +259,6 @@ export default defineComponent({
     const selectedOutline = 'outline:3px solid #e91e63'
 
     const onSelectElement = (id: number) => {
-      console.log({ CLICK: id })
       emit('select', getElementById(props.elements, id))
     }
 

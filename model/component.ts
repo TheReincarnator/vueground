@@ -1,3 +1,5 @@
+import { CanvasElement } from './element'
+
 export interface LibraryComponent {
   id: string
   name: string
@@ -5,6 +7,7 @@ export interface LibraryComponent {
   toplevel: boolean
   children: 'toplevel' | string[]
   props: LibraryProp[]
+  vueCode: (element: CanvasElement) => string[]
 }
 
 export type LibraryProp = {
