@@ -21,7 +21,7 @@
           <VBtn v-for="icon in icons" :key="icon" icon color="secondary" @click="onIcon(icon)">
             <VIcon>mdi-{{ icon }}</VIcon>
           </VBtn>
-          <p v-if="term.length < 2" class="text-body-1">
+          <p v-if="term.length < 3" class="text-body-1">
             Enter a search term to show icons.
           </p>
           <p v-else-if="icons.length === 0" class="text-body-1">
@@ -58,7 +58,7 @@ export default defineComponent({
 
     const icons = computed<string[]>(() => {
       const termValue = term.value
-      if (termValue.length < 2) {
+      if (termValue.length < 3) {
         return []
       }
 

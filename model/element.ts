@@ -14,6 +14,21 @@ export function getElementIds(elements: CanvasElement[]): number[] {
   return elements.flatMap(element => [element.id, ...getElementIds(element.children)])
 }
 
+export function getElementById(elements: CanvasElement[], id: number): CanvasElement | null {
+  let element: CanvasElement | null = null
+  elements.forEach(candidate => {
+    if (candidate.id === id) {
+      element = candidate
+    }
+
+    if (!element) {
+      element = getElementById(candidate.children, id)
+    }
+  })
+
+  return element
+}
+
 let sequence = 1
 
 export function resetSequence(elements: CanvasElement[]): void {

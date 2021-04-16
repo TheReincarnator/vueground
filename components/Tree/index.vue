@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div @mousedown.stop="onSelectElements([])">
     <h2 class="text-h3 px-4 pt-4 pb-2">Elements</h2>
     <VTreeview
       v-if="elements.length"
@@ -10,7 +10,8 @@
       :open="openElementIds"
       class="ml-1"
       style="cursor: pointer"
-      @update:active="onSelection"
+      @update:active="onSelectElements"
+      @mousedown.stop
     >
       <template v-slot:prepend="{ item }">
         <VIcon>{{ item.component.icon }}</VIcon>
@@ -68,7 +69,7 @@ export default defineComponent({
     },
   },
   setup(props, { emit }) {
-    const onSelection = (selected: number[]) => {
+    const onSelectElements = (selected: number[]) => {
       emit('select', selected.length === 1 ? findElement(props.elements, selected[0]) : null)
     }
 
@@ -78,7 +79,7 @@ export default defineComponent({
 
     return {
       selectedElementIds,
-      onSelection,
+      onSelectElements,
     }
   },
 })

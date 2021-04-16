@@ -32,11 +32,12 @@
         <Library :selected-element="selectedElement" @add="onAddElement" />
       </VSheet>
     </div>
-    <div class="pa-4" style="flex: 10 1 100px">
+    <div class="pa-4" style="flex: 10 1 100px" @mousedown.stop="onSelectElement(null)">
       <Canvas
         v-if="elements.value.length"
         :elements="elements.value"
         :selected-element="selectedElement"
+        @select="onSelectElement"
       />
       <div v-else class="mx-2">
         <div class="text-h1">Welcome to VueGround</div>

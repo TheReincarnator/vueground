@@ -3,6 +3,7 @@
     <div
       v-for="{ id: elementId, props, classes, component, children } in elementViews"
       :key="elementId"
+      @mousedown.stop="onSelectElement(elementId)"
     >
       <div
         v-if="component.id === 'Text'"
@@ -29,6 +30,7 @@
           v-bind="rowProps"
           :class="rowClasses"
           :style="selectedId === rowId ? selectedOutline : ''"
+          @mousedown.stop="onSelectElement(rowId)"
         >
           <VCol
             v-for="{
@@ -41,8 +43,9 @@
             v-bind="colProps"
             :class="colClasses"
             :style="selectedId === colId ? selectedOutline : ''"
+            @mousedown.stop="onSelectElement(colId)"
           >
-            <Canvas :elements="colChildren" v-bind="$props" />
+            <Canvas :elements="colChildren" v-bind="$props" @select="$emit('select', $event)" />
           </VCol>
         </VRow>
       </VContainer>
@@ -57,7 +60,7 @@
           <h2 class="text-h2">{{ props.title }}</h2>
         </VCardTitle>
         <VCardText>
-          <Canvas :elements="children" v-bind="$props" />
+          <Canvas :elements="children" v-bind="$props" @select="$emit('select', $event)" />
         </VCardText>
       </VCard>
 
@@ -120,7 +123,7 @@
         :class="classes"
         :style="selectedId === elementId ? selectedOutline : ''"
       >
-        <Canvas :elements="children" v-bind="$props" />
+        <Canvas :elements="children" v-bind="$props" @select="$emit('select', $event)" />
       </VRadioGroup>
 
       <VRadio
@@ -167,7 +170,7 @@
         :class="classes"
         :style="selectedId === elementId ? selectedOutline : ''"
       >
-        <Canvas :elements="children" v-bind="$props" />
+        <Canvas :elements="children" v-bind="$props" @select="$emit('select', $event)" />
       </VList>
 
       <VTable
@@ -176,7 +179,7 @@
         :class="classes"
         :style="selectedId === elementId ? selectedOutline : ''"
       >
-        <Canvas :elements="children" v-bind="$props" />
+        <Canvas :elements="children" v-bind="$props" @select="$emit('select', $event)" />
       </VTable>
 
       <div v-else class="text--red" :style="selectedId === elementId ? selectedOutline : ''">
@@ -191,7 +194,7 @@ import { computed, defineComponent, PropType } from '@nuxtjs/composition-api'
 import { Fragment } from 'vue-fragment'
 
 import { LibraryComponent } from '~/model/component'
-import { CanvasElement } from '~/model/element'
+import { CanvasElement, getElementById } from '~/model/element'
 import { Json } from '~/types/json'
 
 interface ElementView {
@@ -247,7 +250,7 @@ export default defineComponent({
       default: null,
     },
   },
-  setup(props) {
+  setup(props, { emit }) {
     const elementViews = computed<ElementView[]>(() =>
       props.elements.map(element => createElementView(element)),
     )
@@ -255,10 +258,16 @@ export default defineComponent({
     const selectedId = computed(() => props.selectedElement?.id)
     const selectedOutline = 'outline:3px solid #e91e63'
 
+    const onSelectElement = (id: number) => {
+      console.log({ CLICK: id })
+      emit('select', getElementById(props.elements, id))
+    }
+
     return {
       elementViews,
       selectedId,
       selectedOutline,
+      onSelectElement,
     }
   },
 })

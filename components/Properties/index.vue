@@ -4,6 +4,10 @@
       {{ selectedElement.component.name }} properties
     </h2>
     <h2 v-else class="text-h3 mb-2">Properties</h2>
+
+    <ColorDialog :is-open.sync="colorDialog.isOpen" @select="onValue($event)" />
+    <IconDialog :is-open.sync="iconDialog.isOpen" @select="onValue($event)" />
+
     <VForm v-if="selectedElement">
       <div v-for="{ key, prop, value } in elementProps" :key="key">
         <h2 v-if="prop.section" class="text-h3 my-4">{{ prop.section }}</h2>
@@ -183,18 +187,13 @@
         </VSlider>
 
         <!-- Prop-type "color" -->
-        <ColorDialog
-          v-if="prop.type === 'color'"
-          :is-open.sync="colorDialog.isOpen"
-          @select="value.value = $event"
-        />
         <VContainer v-if="prop.type === 'color'" class="ma-0 pa-0">
           <VRow align="center" class="ma-0 pa-0">
             <VCol class="ma-0 pa-0">
               <VTextField :label="prop.name" v-model="value.value" />
             </VCol>
             <VCol cols="auto" class="ma-0 py-0 pr-0 pl-4">
-              <VBtn small @click="colorDialog.open">
+              <VBtn small @click="onOpenColorDialog(value)">
                 <VIcon left>mdi-palette</VIcon>
                 Select
               </VBtn>
@@ -203,18 +202,13 @@
         </VContainer>
 
         <!-- Prop-type "icon" -->
-        <IconDialog
-          v-if="prop.type === 'icon'"
-          :is-open.sync="iconDialog.isOpen"
-          @select="value.value = $event"
-        />
         <VContainer v-if="prop.type === 'icon'" class="ma-0 pa-0">
           <VRow align="center" class="ma-0 pa-0">
             <VCol class="ma-0 pa-0">
               <VTextField :label="prop.name" v-model="value.value" />
             </VCol>
             <VCol cols="auto" class="ma-0 py-0 pr-0 pl-4">
-              <VBtn small @click="iconDialog.open">
+              <VBtn small @click="onOpenIconDialog(value)">
                 <VIcon left>mdi-dots-grid</VIcon>
                 Select
               </VBtn>
@@ -233,7 +227,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, computed, Ref } from '@nuxtjs/composition-api'
+import { defineComponent, PropType, computed, Ref, ref } from '@nuxtjs/composition-api'
 
 import { CanvasElement } from '~/model/element'
 import { LibraryProp } from '~/model/component'
@@ -278,13 +272,31 @@ export default defineComponent({
         })) ?? [],
     )
 
+    let editedValue: Ref<string> | null = null
+
     const colorDialog = useDialog()
+    const onOpenColorDialog = (value: Ref<string>) => {
+      editedValue = value
+      colorDialog.open()
+    }
+
     const iconDialog = useDialog()
+    const onOpenIconDialog = (value: Ref<string>) => {
+      editedValue = value
+      iconDialog.open()
+    }
+
+    const onValue = (value: string) => {
+      editedValue!.value = value
+    }
 
     return {
       elementProps,
       colorDialog,
       iconDialog,
+      onOpenColorDialog,
+      onOpenIconDialog,
+      onValue,
     }
   },
 })
