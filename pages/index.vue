@@ -143,7 +143,7 @@ export default defineComponent({
 
         const reader = new FileReader()
         reader.onload = event => {
-          elements.value = parseModel(JSON.parse(event.target!.result as string))
+          elements.value = reactive(parseModel(JSON.parse(event.target!.result as string)))
         }
         reader.readAsText(input.files.item(0)!)
       })

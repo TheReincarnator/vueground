@@ -1,6 +1,6 @@
 <template>
   <div style="position: relative">
-    <VBtn class="my-1 mx-3" style="position: absolute; top: 0; right: 0">
+    <VBtn class="my-1 mx-3" style="position: absolute; top: 0; right: 0" @click="onCopy">
       <VIcon left>mdi-content-copy</VIcon>
       Copy
     </VBtn>
@@ -40,8 +40,13 @@ export default defineComponent({
   setup(props) {
     const code = computed<string>(() => getVueCode(props.elements).join('\n'))
 
+    const onCopy = async () => {
+      await navigator.clipboard.writeText(code.value)
+    }
+
     return {
       code,
+      onCopy,
     }
   },
 })
