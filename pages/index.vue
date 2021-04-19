@@ -1,7 +1,10 @@
 <template>
   <div class="d-flex flex-row" style="position: absolute; top: 0; bottom: 0; left: 0; right: 0">
-    <div class="d-flex flex-column" style="flex: 1 0 250px">
-      <VSheet elevation="8" style="flex: 1 0 0; overflow: auto">
+    <div
+      class="d-flex flex-column"
+      style="flex: 0 0 auto; min-width: 320px; width: 20vw; max-width: 400px"
+    >
+      <VSheet elevation="8" class="d-flex flex-column" style="flex: 1 0 0">
         <VAppBar style="flex: 0 0 auto">
           <input ref="inputRef" type="file" style="position: absolute; width: 0; height: 0" />
           <div class="d-flex justify-space-between" style="width: 100%">
@@ -23,6 +26,7 @@
           :elements="elements.value"
           :open-element-ids="openElementIds"
           :selected-element="selectedElement"
+          style="flex: 1 0 0; overflow: auto"
           @new="onNewModel"
           @select="onSelectElement"
           @remove="onRemoveElement"
@@ -53,11 +57,14 @@
           Use the Design Library to start sketching.
         </div>
       </div>
-      <VSheet color="grey darken-2" style="flex: 0 0 250px">
+      <VSheet color="grey darken-2" style="flex: 0 0 auto">
         <VueCode :elements="elements.value" />
       </VSheet>
     </div>
-    <div class="d-flex flex-column" style="flex: 1 0 250px">
+    <div
+      class="d-flex flex-column"
+      style="flex: 0 0 auto; min-width: 320px; width: 20vw; max-width: 400px"
+    >
       <VSheet elevation="8" style="flex: 1 0 0; overflow: auto">
         <Properties :selected-element="selectedElement" />
       </VSheet>
@@ -143,7 +150,12 @@ export default defineComponent({
 
         const reader = new FileReader()
         reader.onload = event => {
-          elements.value = reactive(parseModel(JSON.parse(event.target!.result as string)))
+          elements.value = []
+          parseModel(JSON.parse(event.target!.result as string)).forEach(element =>
+            elements.value.push(element),
+          )
+          resetSequence(elements.value)
+          openElementIds.value = getElementIds(elements.value)
         }
         reader.readAsText(input.files.item(0)!)
       })

@@ -1,10 +1,14 @@
 <template>
   <div style="position: relative">
-    <VBtn class="my-1 mx-3" style="position: absolute; top: 0; right: 0" @click="onCopy">
+    <VBtn class="my-1 mx-8" style="position: absolute; top: 0; right: 0" @click="onCopy">
       <VIcon left>mdi-content-copy</VIcon>
       Copy
     </VBtn>
-    <pre class="white--text ma-2" style="font-size: 12px; line-height: 1.2">{{ code }}</pre>
+    <pre
+      class="white--text ma-2"
+      style="font-size: 12px; line-height: 1.2; min-height: 50px; max-height: 250px; overflow-y: auto"
+      >{{ code }}</pre
+    >
   </div>
 </template>
 

@@ -46,7 +46,7 @@ export const components: LibraryComponent[] = [
         default: undefined,
       },
     ],
-
+    label: (e: CanvasElement) => (e.props.text as string) ?? e.component.name,
     vueCode: (e: CanvasElement) => [
       `<div${classes(e, prefixed('text-', e.props.type), suffixed(e.props.color, '--text'))}>`,
       `  ${e.props.text}`,
@@ -75,6 +75,7 @@ export const components: LibraryComponent[] = [
       { id: 'pl', name: 'left', type: 'padding', default: 0 },
       { id: 'pr', name: 'right', type: 'padding', default: 0 },
     ],
+    label: (e: CanvasElement) => e.component.name,
 
     // TODO: v-bind="props"
     vueCode: (e: CanvasElement) => [`<VContainer${classes(e)}>`, `  {{children}}`, `</VContainer>`],
@@ -82,7 +83,7 @@ export const components: LibraryComponent[] = [
   {
     id: 'VRow',
     name: 'Row',
-    icon: 'mdi-grid-large',
+    icon: 'mdi-table-row',
     toplevel: false,
     children: ['VCol'],
     props: [
@@ -123,6 +124,7 @@ export const components: LibraryComponent[] = [
         default: false,
       },
     ],
+    label: (e: CanvasElement) => e.component.name,
 
     // TODO: v-bind="rowProps"
     vueCode: (e: CanvasElement) => [`<VRow${classes(e)}>`, `  {{children}}`, `</VRow>`],
@@ -130,7 +132,7 @@ export const components: LibraryComponent[] = [
   {
     id: 'VCol',
     name: 'Column',
-    icon: 'mdi-grid-large',
+    icon: 'mdi-table-column',
     toplevel: false,
     children: 'toplevel',
     props: [
@@ -149,6 +151,7 @@ export const components: LibraryComponent[] = [
         default: undefined,
       },
     ],
+    label: (e: CanvasElement) => e.component.name,
 
     // TODO: v-bind="colProps"
     vueCode: (e: CanvasElement) => [`<VCol${classes(e)}>`, `  {{children}}`, `</VCol>`],
@@ -189,6 +192,7 @@ export const components: LibraryComponent[] = [
         max: 24,
       },
     ],
+    label: (e: CanvasElement) => (e.props.title as string) ?? e.component.name,
 
     // TODO: v-bind="props"
     vueCode: (e: CanvasElement) => [
@@ -245,6 +249,7 @@ export const components: LibraryComponent[] = [
         required: false,
       },
     ],
+    label: (e: CanvasElement) => (e.props.label as string) ?? e.component.name,
 
     vueCode: (e: CanvasElement) => [
       '<VChip' +
@@ -298,6 +303,7 @@ export const components: LibraryComponent[] = [
         default: false,
       },
     ],
+    label: (e: CanvasElement) => (e.props.icon as string) ?? e.component.name,
 
     // TODO: v-bind="props"
     vueCode: (e: CanvasElement) => [
@@ -365,6 +371,7 @@ export const components: LibraryComponent[] = [
         default: false,
       },
     ],
+    label: (e: CanvasElement) => (e.props.label as string) ?? e.component.name,
 
     // TODO: v-bind="props"
     vueCode: (e: CanvasElement) => [`<VTextField${classes(e)}>`, `</VTextField>`],
@@ -500,6 +507,7 @@ export const components: LibraryComponent[] = [
         default: false,
       },
     ],
+    label: (e: CanvasElement) => (e.props.label as string) ?? e.component.name,
 
     // TODO: v-bind="props"
     vueCode: (e: CanvasElement) => [`<VSelect${classes(e)}>`, `</VSelect>`],
@@ -550,6 +558,7 @@ export const components: LibraryComponent[] = [
         default: false,
       },
     ],
+    label: (e: CanvasElement) => (e.props.label as string) ?? e.component.name,
 
     // TODO: v-bind="props"
 
@@ -587,8 +596,9 @@ export const components: LibraryComponent[] = [
         default: false,
       },
     ],
-    // TODO: v-bind="props"
+    label: (e: CanvasElement) => e.component.name,
 
+    // TODO: v-bind="props"
     vueCode: (e: CanvasElement) => [
       '<VRadioGroup' +
         classes(e) +
@@ -627,6 +637,7 @@ export const components: LibraryComponent[] = [
         default: false,
       },
     ],
+    label: (e: CanvasElement) => (e.props.label as string) ?? e.component.name,
 
     // TODO: v-bind="props"
     vueCode: (e: CanvasElement) => [`<VRadio${classes(e)}>`, `</VRadio>`],
@@ -671,6 +682,7 @@ export const components: LibraryComponent[] = [
         default: false,
       },
     ],
+    label: (e: CanvasElement) => (e.props.label as string) ?? e.component.name,
 
     // TODO: v-bind="props"
     vueCode: (e: CanvasElement) => [
@@ -745,6 +757,7 @@ export const components: LibraryComponent[] = [
         default: false,
       },
     ],
+    label: (e: CanvasElement) => (e.props.label as string) ?? e.component.name,
 
     // TODO: v-bind="props"
     vueCode: (e: CanvasElement) => [`<VSlider${classes(e)}>`, `</VSlider>`],
@@ -819,6 +832,8 @@ export const components: LibraryComponent[] = [
         max: 24,
       },
     ],
+    label: (e: CanvasElement) =>
+      (e.props.label as string) ?? (e.props.icon as string) ?? e.component.name,
 
     // TODO: v-bind="props"
     vueCode: (e: CanvasElement) => [
@@ -918,6 +933,7 @@ export const components: LibraryComponent[] = [
         max: 24,
       },
     ],
+    label: (e: CanvasElement) => e.component.name,
 
     // TODO: v-bind="props"
     vueCode: (e: CanvasElement) => [`<VList${classes(e)}>`, `  {{children}}`, `</VList>`],
@@ -986,6 +1002,7 @@ export const components: LibraryComponent[] = [
         default: false,
       },
     ],
+    label: (e: CanvasElement) => e.component.name,
 
     // TODO: v-bind="props"
 

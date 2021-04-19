@@ -17,7 +17,9 @@
         <VIcon>{{ item.component.icon }}</VIcon>
       </template>
       <template v-slot:label="{ item }">
-        <span class="text-body-1">{{ item.component.name }}</span>
+        <span class="text-body-1" style="text-overflow: ellipsis">
+          {{ item.component.label(item) }}
+        </span>
       </template>
       <template v-slot:append="{ item }">
         <VBtn icon @click="$emit('remove', item)"><VIcon>mdi-delete</VIcon></VBtn>

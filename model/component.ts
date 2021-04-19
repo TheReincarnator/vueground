@@ -7,6 +7,7 @@ export interface LibraryComponent {
   toplevel: boolean
   children: 'toplevel' | string[]
   props: LibraryProp[]
+  label: (element: CanvasElement) => string
   vueCode: (element: CanvasElement) => string[]
 }
 
