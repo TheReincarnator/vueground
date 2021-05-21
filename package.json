@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "NODE_OPTIONS=--max-old-space-size=4096 nuxt",
     "build": "NODE_ENV=production nuxt build && NODE_ENV=production nuxt generate",
+    "deploy": "yarn build && scp -r dist/* tri@thomasjacob.de:sites/virtual-hosts/vueground.thomasjacob.de/",
     "start": "nuxt start",
     "lint:js": "eslint --ext .js,.vue,.ts,.gql --ignore-path .gitignore .",
     "lint:style": "stylelint --cache **/*.{vue,css} --ignore-path .gitignore",
