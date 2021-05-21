@@ -1,12 +1,13 @@
 import { LibraryComponent } from './component'
 import { getComponentById } from './library'
-import { JsonArray, JsonObject, JsonValue } from '../types/json'
+import { JsonObject } from '../types/json'
 import { clone } from '../utils/clone'
 
 export interface CanvasElement {
   id: number
   component: LibraryComponent
   props: JsonObject
+  parent: CanvasElement | null
   children: CanvasElement[]
 }
 
@@ -51,6 +52,7 @@ export function createElement(component: LibraryComponent): CanvasElement {
     id: ++sequence,
     component,
     props: Object.fromEntries(component.props.map(prop => [prop.id, clone(prop.default)])),
+    parent: null,
     children: [],
   }
 }
@@ -58,10 +60,25 @@ export function createElement(component: LibraryComponent): CanvasElement {
 export function removeElementById(elements: CanvasElement[], id: number): void {
   const index = elements.findIndex(candidate => candidate.id === id)
   if (index >= 0) {
+    elements[index].parent = null
     elements.splice(index, 1)
   } else {
     elements.forEach(element => removeElementById(element.children, id))
   }
+}
+
+export function cloneElement(original: CanvasElement): CanvasElement {
+  const clonedElement: CanvasElement = {
+    id: ++sequence,
+    component: original.component,
+    props: clone(original.props),
+    parent: null,
+    children: original.children.map(child => cloneElement(child)),
+  }
+
+  clonedElement.children.forEach(child => (child.parent = clonedElement))
+
+  return clonedElement
 }
 
 function serializeElement(element: CanvasElement): JsonObject {
@@ -69,7 +86,7 @@ function serializeElement(element: CanvasElement): JsonObject {
     id: element.id,
     component: element.component.id,
     props: element.props,
-    children: element.children.map(serializeElement),
+    children: element.children.map(child => serializeElement(child)),
   }
 }
 
@@ -116,12 +133,17 @@ function parseElement(json: JsonObject): CanvasElement | null {
     return null
   }
 
-  return {
+  const element: CanvasElement = {
     id,
     component,
     props: props as JsonObject,
+    parent: null,
     children: (children as JsonObject[]).map(parseElement).filter(isCanvasElement),
   }
+
+  element.children.forEach(child => (child.parent = element))
+
+  return element
 }
 
 export function parseModel(json: JsonObject): CanvasElement[] {

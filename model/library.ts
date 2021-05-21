@@ -1045,6 +1045,13 @@ export function getPermittedComponents(container: LibraryComponent | null): Libr
   return components.filter(component => component.toplevel)
 }
 
+export function isSupportingComponent(
+  container: LibraryComponent | null,
+  childId: string,
+): boolean {
+  return !!getPermittedComponents(container).find(child => child.id === childId)
+}
+
 function convertMarginPadding(value: any): string {
   const valueNumber = parseInt(value)
   if (Number.isNaN(valueNumber)) {

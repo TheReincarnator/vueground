@@ -83,10 +83,12 @@ import {
   resetSequence,
   createElement,
   removeElementById,
+  cloneElement,
   serializeModel,
   parseModel,
 } from '~/model/element'
 import { LibraryComponent } from '~/model/component'
+import { isSupportingComponent } from '~/model/library'
 
 import { useConfirmDialog } from '~/utils/composable/confirmDialog'
 
@@ -117,6 +119,7 @@ export default defineComponent({
 
     const openElementIds = ref<number[]>(getElementIds(elements.value))
     const selectedElement = ref<CanvasElement | null>(null)
+    const clipboard = ref<CanvasElement | null>(null)
 
     const onNewModel = async () => {
       if (
@@ -140,6 +143,64 @@ export default defineComponent({
       input.click()
     }
 
+    const onSaveModel = () => {
+      const blob = new Blob([JSON.stringify(serializeModel(elements.value), undefined, 2)], {
+        type: 'application/json;charset=utf-8',
+      })
+      const dateString = format(new Date(), 'yyyyMMdd-HHmmss')
+      saveAs(blob, `vueground-${dateString}.vgm`)
+    }
+
+    const onSelectElement = (element: CanvasElement | null) => {
+      selectedElement.value = element
+    }
+
+    const addElementTo = (element: CanvasElement, parent: CanvasElement | null) => {
+      if (parent) {
+        parent.children.push(element)
+      } else {
+        elements.value.push(element)
+      }
+      element.parent = parent
+    }
+
+    const addElementAfter = (element: CanvasElement, after: CanvasElement | null) => {
+      if (after === null) {
+        addElementTo(element, null)
+        return
+      }
+
+      const parentChildren = after.parent !== null ? after.parent.children : elements.value
+      const index = parentChildren.indexOf(after)
+      const newIndex = index >= 0 ? index + 1 : parentChildren.length
+      parentChildren.splice(newIndex, 0, element)
+      element.parent = after.parent
+    }
+
+    const openElement = (elementId: string) => {
+      if (!openElementIds.value.includes(elementId)) {
+        openElementIds.value.push(elementId)
+      }
+    }
+
+    const onAddElement = (component: LibraryComponent) => {
+      const newElement = createElement(component)
+      addElementTo(newElement, selectedElement.value)
+
+      if (selectedElement.value) {
+        openElement(selectedElement.value.id)
+      }
+
+      selectedElement.value = newElement
+    }
+
+    const onRemoveElement = (element: CanvasElement) => {
+      removeElementById(elements.value, element.id)
+      if (selectedElement.value?.id === element.id) {
+        selectedElement.value = null
+      }
+    }
+
     onMounted(() => {
       const input = inputRef.value as HTMLInputElement
 
@@ -159,38 +220,61 @@ export default defineComponent({
         }
         reader.readAsText(input.files.item(0)!)
       })
-    })
-    const onSaveModel = () => {
-      const blob = new Blob([JSON.stringify(serializeModel(elements.value), undefined, 2)], {
-        type: 'application/json;charset=utf-8',
+
+      document.addEventListener('keydown', event => {
+        const cmd = event.getModifierState('Control') || event.getModifierState('Meta')
+        if (cmd && event.key === 'x') {
+          event.preventDefault()
+          if (selectedElement.value) {
+            clipboard.value = selectedElement.value
+            removeElementById(elements.value, selectedElement.value.id)
+          }
+        } else if (cmd && event.key === 'c') {
+          event.preventDefault()
+          if (selectedElement.value) {
+            clipboard.value = selectedElement.value
+          }
+        } else if (cmd && event.key === 'v') {
+          event.preventDefault()
+          console.log({ SELECTED_IS: selectedElement.value?.component.id })
+          console.log({ SELECTED_SUPPORTS: selectedElement.value?.component.children })
+          console.log({ PARENT_IS: selectedElement.value?.parent?.component.id })
+          console.log({ PARENT_SUPPORTS: selectedElement.value?.parent?.component.children })
+          console.log({ ELEMENT_IS: clipboard.value.component.id })
+          if (clipboard.value) {
+            if (
+              selectedElement.value?.component &&
+              isSupportingComponent(selectedElement.value.component, clipboard.value.component.id)
+            ) {
+              const newElement = cloneElement(clipboard.value)
+              addElementTo(newElement, selectedElement.value)
+              selectedElement.value = newElement
+              openElement(newElement.id)
+              openElement(selectedElement.value.id)
+            } else if (
+              selectedElement.value?.parent?.component &&
+              isSupportingComponent(
+                selectedElement.value.parent.component,
+                clipboard.value.component.id,
+              )
+            ) {
+              const newElement = cloneElement(clipboard.value)
+              addElementAfter(newElement, selectedElement.value)
+              selectedElement.value = newElement
+              openElement(newElement.id)
+            }
+          }
+        } else if (cmd && event.key === 'd') {
+          event.preventDefault()
+          if (selectedElement.value) {
+            const newElement = cloneElement(selectedElement.value)
+            addElementAfter(newElement, selectedElement.value)
+            selectedElement.value = newElement
+            openElement(newElement.id)
+          }
+        }
       })
-      const dateString = format(new Date(), 'yyyyMMdd-HHmmss')
-      saveAs(blob, `vueground-${dateString}.vgm`)
-    }
-
-    const onSelectElement = (element: CanvasElement | null) => {
-      selectedElement.value = element
-    }
-
-    const onAddElement = (component: LibraryComponent) => {
-      const newElement = createElement(component)
-
-      if (selectedElement.value) {
-        openElementIds.value.push(selectedElement.value.id)
-        selectedElement.value.children.push(newElement)
-      } else {
-        elements.value.push(newElement)
-      }
-
-      selectedElement.value = newElement
-    }
-
-    const onRemoveElement = (element: CanvasElement) => {
-      removeElementById(elements.value, element.id)
-      if (selectedElement.value?.id === element.id) {
-        selectedElement.value = null
-      }
-    }
+    })
 
     return {
       inputRef,
