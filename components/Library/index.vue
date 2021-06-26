@@ -21,10 +21,9 @@
 
 <script lang="ts">
 import { computed, defineComponent, PropType } from '@nuxtjs/composition-api'
-import { LibraryComponent } from '~/model/component'
-import { CanvasElement } from '~/model/element'
 
-import { getPermittedComponents } from '~/model/library'
+import { LibraryComponent, getPermittedComponents } from '~/model/component'
+import { CanvasElement } from '~/model/element'
 
 export default defineComponent({
   name: 'Library',

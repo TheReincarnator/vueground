@@ -1,13 +1,10 @@
 <template>
-  <div class="d-flex flex-row" style="position: absolute; top: 0; bottom: 0; left: 0; right: 0">
-    <div
-      class="d-flex flex-column"
-      style="flex: 0 0 auto; min-width: 320px; width: 20vw; max-width: 400px"
-    >
-      <VSheet elevation="8" class="d-flex flex-column" style="flex: 1 0 0">
-        <VAppBar style="flex: 0 0 auto">
-          <input ref="inputRef" type="file" style="position: absolute; width: 0; height: 0" />
-          <div class="d-flex justify-space-between" style="width: 100%">
+  <div class="vg-page">
+    <div class="vg-page-left">
+      <VSheet elevation="8" class="vg-page-tree">
+        <VAppBar class="vg-page-tree-buttons">
+          <input ref="inputRef" type="file" class="vg-page-tree-buttons-file" />
+          <div class="vg-page-tree-buttons-container">
             <VBtn color="white" @click="onNewModel">
               <VIcon left>mdi-file-outline</VIcon>
               New
@@ -26,29 +23,25 @@
           :elements="elements.value"
           :open-element-ids="openElementIds"
           :selected-element="selectedElement"
-          style="flex: 1 0 0; overflow: auto"
+          class="vg-page-tree-tree"
           @new="onNewModel"
           @select="onSelectElement"
           @remove="onRemoveElement"
         />
       </VSheet>
-      <VSheet elevation="8" style="flex: 1 0 0; overflow: auto">
+      <VSheet elevation="8" class="vg-page-library">
         <Library :selected-element="selectedElement" @add="onAddElement" />
       </VSheet>
     </div>
-    <div
-      class="d-flex flex-column"
-      style="flex: 10 1 100px"
-      @mousedown.stop="onSelectElement(null)"
-    >
-      <div v-if="elements.value.length" class="pa-4" style="flex: 1 0 0">
+    <div class="vg-page-main" @mousedown.stop="onSelectElement(null)">
+      <div v-if="elements.value.length" class="vg-page-canvas pa-4">
         <Canvas
           :elements="elements.value"
           :selected-element="selectedElement"
           @select="onSelectElement"
         />
       </div>
-      <div v-else class="py-4 px-6" style="flex: 1 0 0">
+      <div v-else class="vg-page-canvas py-4 px-6">
         <div class="text-h1">Welcome to VueGround</div>
         <div class="text-subtitle-1">
           A UX design tool and visual playground for Vuetify projects.
@@ -57,15 +50,12 @@
           Use the Design Library to start sketching.
         </div>
       </div>
-      <VSheet color="grey darken-2" style="flex: 0 0 auto">
+      <VSheet color="grey darken-2">
         <VueCode :elements="elements.value" />
       </VSheet>
     </div>
-    <div
-      class="d-flex flex-column"
-      style="flex: 0 0 auto; min-width: 320px; width: 20vw; max-width: 400px"
-    >
-      <VSheet elevation="8" style="flex: 1 0 0; overflow: auto">
+    <div class="vg-page-right">
+      <VSheet elevation="8" class="vg-page-properties">
         <Properties :selected-element="selectedElement" />
       </VSheet>
     </div>
@@ -87,8 +77,7 @@ import {
   serializeModel,
   parseModel,
 } from '~/model/element'
-import { LibraryComponent } from '~/model/component'
-import { isSupportingComponent } from '~/model/library'
+import { LibraryComponent, isSupportingComponent } from '~/model/component'
 
 import { useConfirmDialog } from '~/utils/composable/confirmDialog'
 
@@ -291,3 +280,82 @@ export default defineComponent({
   },
 })
 </script>
+
+<style scoped>
+.vg-page {
+  display: flex;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.vg-page-left {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  min-width: 320px;
+  width: 20vw;
+  max-width: 400px;
+}
+
+.vg-page-tree {
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 0;
+}
+
+.vg-page-tree-buttons {
+  flex: 0 0 auto;
+}
+
+.vg-page-tree-buttons-file {
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+.vg-page-tree-buttons-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.vg-page-tree-tree {
+  flex: 1 0 0;
+  overflow: auto;
+}
+
+.vg-page-library {
+  flex: 1 0 0;
+  overflow: auto;
+}
+
+.vg-page-main {
+  flex: 10 1 100px;
+  display: flex;
+  flex-direction: column;
+}
+
+.vg-page-canvas {
+  flex: 1 0 0;
+}
+
+.vg-page-vuecode {
+  flex: 0 0 auto;
+}
+
+.vg-page-right {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  min-width: 320px;
+  width: 20vw;
+  max-width: 400px;
+}
+
+.vg-page-properties {
+  flex: 1 0 0;
+  overflow: auto;
+}
+</style>

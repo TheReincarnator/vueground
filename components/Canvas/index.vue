@@ -195,21 +195,26 @@ import { Fragment } from 'vue-fragment'
 
 import { LibraryComponent } from '~/model/component'
 import { CanvasElement, getElementById } from '~/model/element'
-import { JsonObject } from '~/types/json'
+import { JsonObject, JsonValue } from '~/types/json'
 
 interface ElementView {
   id: number
   component: LibraryComponent
   props: JsonObject
-  children: CanvasElement[]
+  children: ElementView[]
   classes: string
 }
 
-function convertMarginPadding(value?: string): string {
-  if (value === null || value === undefined) {
+function convertMarginPadding(value?: JsonValue): string {
+  let valueNumber
+  if (typeof value === 'string') {
+    valueNumber = parseInt(value)
+  } else if (typeof value === 'number') {
+    valueNumber = value
+  } else {
     return ''
   }
-  const valueNumber = parseInt(value)
+
   return valueNumber < 0 ? 'n' + String(-valueNumber) : String(valueNumber)
 }
 

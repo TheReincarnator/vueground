@@ -1,5 +1,5 @@
 import { LibraryComponent, LibraryProp } from '~/model/component'
-import { CanvasElement } from './element'
+import { CanvasElement } from '~/model/element'
 
 export const components: LibraryComponent[] = [
   {
@@ -1029,29 +1029,6 @@ components.forEach(component => {
   })
 })
 
-export function getComponentById(id: string): LibraryComponent {
-  const component = components.find(candidate => candidate.id === id)
-  if (!component) {
-    throw new Error(`Unknown library component '${id}`)
-  }
-
-  return component
-}
-
-export function getPermittedComponents(container: LibraryComponent | null): LibraryComponent[] {
-  if (container && container.children !== 'toplevel') {
-    return container.children.map(childId => getComponentById(childId))
-  }
-  return components.filter(component => component.toplevel)
-}
-
-export function isSupportingComponent(
-  container: LibraryComponent | null,
-  childId: string,
-): boolean {
-  return !!getPermittedComponents(container).find(child => child.id === childId)
-}
-
 function convertMarginPadding(value: any): string {
   const valueNumber = parseInt(value)
   if (Number.isNaN(valueNumber)) {
@@ -1135,15 +1112,6 @@ function classes(element: CanvasElement, ...values: any[]): string {
     .join(' ')
     .trim()
   return jointValues ? ` class="${jointValues}"` : ''
-}
-
-function styles(...values: any[]): string {
-  const jointValues = values
-    .filter(Boolean)
-    .map(toString)
-    .join(' ')
-    .trim()
-  return jointValues ? ` style="${jointValues}"` : ''
 }
 
 function prop(propName: string, value: any): string {

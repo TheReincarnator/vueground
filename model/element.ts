@@ -1,5 +1,4 @@
-import { LibraryComponent } from './component'
-import { getComponentById } from './library'
+import { LibraryComponent, getComponentById } from './component'
 import { JsonObject } from '../types/json'
 import { clone } from '../utils/clone'
 

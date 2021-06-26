@@ -1,4 +1,5 @@
 import { CanvasElement } from './element'
+import { components } from '../library'
 
 export interface LibraryComponent {
   id: string
@@ -71,3 +72,26 @@ export type LibraryProp = {
       default: any
     }
 )
+
+export function getComponentById(id: string): LibraryComponent {
+  const component = components.find(candidate => candidate.id === id)
+  if (!component) {
+    throw new Error(`Unknown library component '${id}`)
+  }
+
+  return component
+}
+
+export function getPermittedComponents(container: LibraryComponent | null): LibraryComponent[] {
+  if (container && container.children !== 'toplevel') {
+    return container.children.map(childId => getComponentById(childId))
+  }
+  return components.filter(component => component.toplevel)
+}
+
+export function isSupportingComponent(
+  container: LibraryComponent | null,
+  childId: string,
+): boolean {
+  return !!getPermittedComponents(container).find(child => child.id === childId)
+}

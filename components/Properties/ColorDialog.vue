@@ -23,7 +23,7 @@
         </VCardTitle>
         <VCardText>
           <div class="mb-4">
-            <VBtn @click="onColor(undefined)">none</VBtn>
+            <VBtn @click="onColor('')">none</VBtn>
             <VBtn color="primary" @click="onColor('primary')">primary</VBtn>
             <VBtn color="secondary" @click="onColor('secondary')">secondary</VBtn>
             <VBtn color="success" class="ml-4" @click="onColor('success')">success</VBtn>

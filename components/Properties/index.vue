@@ -38,7 +38,7 @@
           v-model="value.value"
         >
           <template v-slot:label>
-            <span style="display: inline-block; min-width: 60px">{{ prop.name }}</span>
+            <span class="vg-prop-name">{{ prop.name }}</span>
           </template>
         </VSlider>
 
@@ -84,7 +84,7 @@
           @input="value.value = $event"
         >
           <template v-slot:label>
-            <span style="display: inline-block; min-width: 60px">{{ prop.name }}</span>
+            <span class="vg-prop-name">{{ prop.name }}</span>
             <VBtn
               small
               tile
@@ -128,7 +128,7 @@
           @input="value.value = $event"
         >
           <template v-slot:label>
-            <span style="display: inline-block; min-width: 60px">{{ prop.name }}</span>
+            <span class="vg-prop-name">{{ prop.name }}</span>
             <VBtn
               small
               tile
@@ -162,7 +162,7 @@
           @input="value.value = $event"
         >
           <template v-slot:label>
-            <span style="display: inline-block; min-width: 60px">{{ prop.name }}</span>
+            <span class="vg-prop-name">{{ prop.name }}</span>
             <VBtn
               small
               tile
@@ -301,3 +301,10 @@ export default defineComponent({
   },
 })
 </script>
+
+<style scoped>
+.vg-prop-name {
+  display: inline-block;
+  min-width: 60px;
+}
+</style>

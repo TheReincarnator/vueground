@@ -1,14 +1,10 @@
 <template>
-  <div style="position: relative">
-    <VBtn class="my-1 mx-8" style="position: absolute; top: 0; right: 0" @click="onCopy">
+  <div class="vg-vuecode">
+    <VBtn class="vg-vuecode-copy my-1 mx-8" @click="onCopy">
       <VIcon left>mdi-content-copy</VIcon>
       Copy
     </VBtn>
-    <pre
-      class="white--text ma-2"
-      style="font-size: 12px; line-height: 1.2; min-height: 50px; max-height: 250px; overflow-y: auto"
-      >{{ code }}</pre
-    >
+    <pre class="vg-vuecode-code white--text ma-2">{{ code }}</pre>
   </div>
 </template>
 
@@ -55,3 +51,23 @@ export default defineComponent({
   },
 })
 </script>
+
+<style scoped>
+.vg-vuecode {
+  position: relative;
+}
+
+.vg-vuecode-copy {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.vg-vuecode-code {
+  font-size: 12px;
+  line-height: 1.2;
+  min-height: 50px;
+  max-height: 250px;
+  overflow-y: auto;
+}
+</style>

@@ -8,8 +8,7 @@
       :active="selectedElementIds"
       :items="elements"
       :open="openElementIds"
-      class="ml-1"
-      style="cursor: pointer"
+      class="vg-treeview ml-1"
       @update:active="onSelectElements"
       @mousedown.stop
     >
@@ -17,7 +16,7 @@
         <VIcon>{{ item.component.icon }}</VIcon>
       </template>
       <template v-slot:label="{ item }">
-        <span class="text-body-1" style="text-overflow: ellipsis">
+        <span class="vg-treeview-item-label text-body-1">
           {{ item.component.label(item) }}
         </span>
       </template>
@@ -86,3 +85,13 @@ export default defineComponent({
   },
 })
 </script>
+
+<style scoped>
+.vg-treeview {
+  cursor: pointer;
+}
+
+.vg-treeview-item-label {
+  text-overflow: ellipsis;
+}
+</style>
