@@ -208,6 +208,7 @@ export default defineComponent({
           openElementIds.value = getElementIds(elements.value)
         }
         reader.readAsText(input.files.item(0)!)
+        input.value = ''
       })
 
       document.addEventListener('keydown', event => {
@@ -225,11 +226,6 @@ export default defineComponent({
           }
         } else if (cmd && event.key === 'v') {
           event.preventDefault()
-          console.log({ SELECTED_IS: selectedElement.value?.component.id })
-          console.log({ SELECTED_SUPPORTS: selectedElement.value?.component.children })
-          console.log({ PARENT_IS: selectedElement.value?.parent?.component.id })
-          console.log({ PARENT_SUPPORTS: selectedElement.value?.parent?.component.children })
-          console.log({ ELEMENT_IS: clipboard.value.component.id })
           if (clipboard.value) {
             if (
               selectedElement.value?.component &&

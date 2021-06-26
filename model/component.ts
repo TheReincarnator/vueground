@@ -36,7 +36,7 @@ export type LibraryProp = {
       type: 'choice'
       required: boolean
       options: string[]
-      default: string | undefined
+      default: string | null
     }
   | {
       type: 'slider'
@@ -44,28 +44,28 @@ export type LibraryProp = {
       min: number
       max: number
     }
-  | { type: 'cols'; default: number | 'auto' | undefined }
+  | { type: 'cols'; default: number | 'auto' | null }
   | {
       type: 'margin-x'
-      default: number | 'auto' | undefined
+      default: number | 'auto' | null
     }
   | {
       type: 'margin-y'
-      default: number | undefined
+      default: number | null
     }
   | {
       type: 'padding'
-      default: number | undefined
+      default: number | null
     }
   | {
       type: 'color'
       required: boolean
-      default: string | undefined
+      default: string | null
     }
   | {
       type: 'icon'
       required: boolean
-      default: string | undefined
+      default: string | null
     }
   | {
       type: 'json'

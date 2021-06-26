@@ -126,6 +126,13 @@ function parseElement(json: JsonObject): CanvasElement | null {
     return null
   }
 
+  // Ensure all prop keys are set, otherwise the Vue reactivity does not work
+  component.props.forEach(prop => {
+    if (!(prop.id in props)) {
+      ;(props as JsonObject)[prop.id] = null
+    }
+  })
+
   const children = json.children
   if (!Array.isArray(children)) {
     console.warn(`Skipping invalid element ${id}: Children is not an array`)

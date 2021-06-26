@@ -43,7 +43,7 @@ export const components: LibraryComponent[] = [
         name: 'Color',
         type: 'color',
         required: false,
-        default: undefined,
+        default: null,
       },
     ],
     label: (e: CanvasElement) => (e.props.text as string) ?? e.component.name,
@@ -66,12 +66,12 @@ export const components: LibraryComponent[] = [
         type: 'boolean',
         default: false,
       },
-      { id: 'mt', section: 'Margins', name: 'top', type: 'margin-y', default: undefined },
-      { id: 'mb', name: 'bottom', type: 'margin-y', default: undefined },
-      { id: 'ml', name: 'left', type: 'margin-x', default: undefined },
-      { id: 'mr', name: 'right', type: 'margin-x', default: undefined },
-      { id: 'pt', section: 'Paddings', name: 'top', type: 'padding', default: undefined },
-      { id: 'pb', name: 'bottom', type: 'padding', default: undefined },
+      { id: 'mt', section: 'Margins', name: 'top', type: 'margin-y', default: null },
+      { id: 'mb', name: 'bottom', type: 'margin-y', default: null },
+      { id: 'ml', name: 'left', type: 'margin-x', default: null },
+      { id: 'mr', name: 'right', type: 'margin-x', default: null },
+      { id: 'pt', section: 'Paddings', name: 'top', type: 'padding', default: null },
+      { id: 'pb', name: 'bottom', type: 'padding', default: null },
       { id: 'pl', name: 'left', type: 'padding', default: 0 },
       { id: 'pr', name: 'right', type: 'padding', default: 0 },
     ],
@@ -93,7 +93,7 @@ export const components: LibraryComponent[] = [
         type: 'choice',
         options: ['start', 'center', 'end', 'space-between', 'space-around'],
         required: false,
-        default: undefined,
+        default: null,
       },
       {
         id: 'align',
@@ -101,7 +101,7 @@ export const components: LibraryComponent[] = [
         type: 'choice',
         required: false,
         options: ['start', 'center', 'end', 'baseline', 'stretch'],
-        default: undefined,
+        default: null,
       },
       {
         id: 'align-content',
@@ -109,7 +109,7 @@ export const components: LibraryComponent[] = [
         type: 'choice',
         options: ['start', 'center', 'end', 'space-between', 'space-around', 'stretch'],
         required: false,
-        default: undefined,
+        default: null,
       },
       {
         id: 'dense',
@@ -140,7 +140,7 @@ export const components: LibraryComponent[] = [
         id: 'cols',
         name: 'Columns',
         type: 'cols',
-        default: undefined,
+        default: null,
       },
       {
         id: 'align-self',
@@ -148,7 +148,7 @@ export const components: LibraryComponent[] = [
         type: 'choice',
         options: ['start', 'center', 'end', 'auto', 'baseline', 'stretch'],
         required: false,
-        default: undefined,
+        default: null,
       },
     ],
     label: (e: CanvasElement) => e.component.name,
@@ -168,7 +168,7 @@ export const components: LibraryComponent[] = [
         name: 'Color',
         type: 'color',
         required: false,
-        default: undefined,
+        default: null,
       },
       {
         id: 'title',
@@ -245,7 +245,7 @@ export const components: LibraryComponent[] = [
         id: 'icon',
         name: 'Icon',
         type: 'icon',
-        default: undefined,
+        default: null,
         required: false,
       },
     ],
@@ -279,7 +279,7 @@ export const components: LibraryComponent[] = [
         name: 'Icon',
         type: 'icon',
         required: true,
-        default: undefined,
+        default: null,
       },
       {
         id: 'size',
@@ -294,7 +294,7 @@ export const components: LibraryComponent[] = [
         name: 'Color',
         type: 'color',
         required: false,
-        default: undefined,
+        default: null,
       },
       {
         id: 'disabled',
@@ -330,7 +330,7 @@ export const components: LibraryComponent[] = [
         name: 'Color',
         type: 'color',
         required: false,
-        default: undefined,
+        default: null,
       },
       {
         id: 'label',
@@ -388,7 +388,7 @@ export const components: LibraryComponent[] = [
         name: 'Color',
         type: 'color',
         required: false,
-        default: undefined,
+        default: null,
       },
       {
         id: 'label',
@@ -524,7 +524,7 @@ export const components: LibraryComponent[] = [
         name: 'Color',
         type: 'color',
         required: false,
-        default: undefined,
+        default: null,
       },
       {
         id: 'label',
@@ -621,7 +621,7 @@ export const components: LibraryComponent[] = [
         name: 'Color',
         type: 'color',
         required: false,
-        default: undefined,
+        default: null,
       },
       {
         id: 'label',
@@ -654,7 +654,7 @@ export const components: LibraryComponent[] = [
         name: 'Color',
         type: 'color',
         required: false,
-        default: undefined,
+        default: null,
       },
       {
         id: 'label',
@@ -702,7 +702,7 @@ export const components: LibraryComponent[] = [
         name: 'Color',
         type: 'color',
         required: false,
-        default: undefined,
+        default: null,
       },
       {
         id: 'label',
@@ -782,7 +782,7 @@ export const components: LibraryComponent[] = [
         name: 'Color',
         type: 'color',
         required: false,
-        default: undefined,
+        default: null,
       },
       {
         id: 'outlined',
@@ -807,14 +807,14 @@ export const components: LibraryComponent[] = [
         id: 'iconLeft',
         name: 'Icon left',
         type: 'icon',
-        default: undefined,
+        default: null,
         required: false,
       },
       {
         id: 'iconRight',
         name: 'Icon right',
         type: 'icon',
-        default: undefined,
+        default: null,
         required: false,
       },
       {
@@ -873,7 +873,7 @@ export const components: LibraryComponent[] = [
         name: 'Color',
         type: 'color',
         required: false,
-        default: undefined,
+        default: null,
       },
       {
         id: 'items',
@@ -1011,14 +1011,14 @@ export const components: LibraryComponent[] = [
 ]
 
 const marginsPaddings: LibraryProp[] = [
-  { id: 'mt', section: 'Margins', name: 'top', type: 'margin-y', default: undefined },
-  { id: 'mb', name: 'bottom', type: 'margin-y', default: undefined },
-  { id: 'ml', name: 'left', type: 'margin-x', default: undefined },
-  { id: 'mr', name: 'right', type: 'margin-x', default: undefined },
-  { id: 'pt', section: 'Paddings', name: 'top', type: 'padding', default: undefined },
-  { id: 'pb', name: 'bottom', type: 'padding', default: undefined },
-  { id: 'pl', name: 'left', type: 'padding', default: undefined },
-  { id: 'pr', name: 'right', type: 'padding', default: undefined },
+  { id: 'mt', section: 'Margins', name: 'top', type: 'margin-y', default: null },
+  { id: 'mb', name: 'bottom', type: 'margin-y', default: null },
+  { id: 'ml', name: 'left', type: 'margin-x', default: null },
+  { id: 'mr', name: 'right', type: 'margin-x', default: null },
+  { id: 'pt', section: 'Paddings', name: 'top', type: 'padding', default: null },
+  { id: 'pb', name: 'bottom', type: 'padding', default: null },
+  { id: 'pl', name: 'left', type: 'padding', default: null },
+  { id: 'pr', name: 'right', type: 'padding', default: null },
 ]
 
 components.forEach(component => {

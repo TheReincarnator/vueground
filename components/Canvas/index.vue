@@ -197,7 +197,7 @@ import { LibraryComponent } from '~/model/component'
 import { CanvasElement, getElementById } from '~/model/element'
 import { JsonObject, JsonValue } from '~/types/json'
 
-interface ElementView {
+export interface ElementView {
   id: number
   component: LibraryComponent
   props: JsonObject

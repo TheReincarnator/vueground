@@ -55,9 +55,9 @@
               small
               tile
               :elevation="0"
-              :color="value.value === undefined ? 'primary' : 'grey lighten-3'"
+              :color="value.value === null ? 'primary' : 'grey lighten-3'"
               class="prop-button"
-              @click="value.value = undefined"
+              @click="value.value = null"
             >
               Def
             </VBtn>
@@ -89,9 +89,9 @@
               small
               tile
               :elevation="0"
-              :color="value.value === undefined ? 'primary' : 'grey lighten-3'"
+              :color="value.value === null ? 'primary' : 'grey lighten-3'"
               class="prop-button"
-              @click="value.value = undefined"
+              @click="value.value = null"
             >
               Def
             </VBtn>
@@ -133,9 +133,9 @@
               small
               tile
               :elevation="0"
-              :color="value.value === undefined ? 'primary' : 'grey lighten-3'"
+              :color="value.value === null ? 'primary' : 'grey lighten-3'"
               class="prop-button"
-              @click="value.value = undefined"
+              @click="value.value = null"
             >
               Def
             </VBtn>
@@ -167,9 +167,9 @@
               small
               tile
               :elevation="0"
-              :color="value.value === undefined ? 'primary' : 'grey lighten-3'"
+              :color="value.value === null ? 'primary' : 'grey lighten-3'"
               class="prop-button"
-              @click="value.value = undefined"
+              @click="value.value = null"
             >
               Def
             </VBtn>

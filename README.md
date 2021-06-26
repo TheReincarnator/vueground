@@ -67,7 +67,7 @@ The Library is the set of supported components for the UX designer to use. These
 
 ## Vuetify example Library
 
-In [library/example/vuetify.js](./library/example/vuetify.js) you'll find an example implementation of a Library. This default Library is used when you just start VueGround.
+In [library/vuetify](./library/vuetify) you'll find an example implementation of a Library. This default Library is used when you just start VueGround.
 
 ## Your own project Library
 
