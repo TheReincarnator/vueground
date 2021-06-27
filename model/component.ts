@@ -1,5 +1,6 @@
 import { CanvasElement } from './element'
 import { components } from '../library'
+import { Component } from 'vue-fragment'
 
 export interface LibraryComponent {
   id: string
@@ -9,6 +10,7 @@ export interface LibraryComponent {
   children: string[]
   props: LibraryProp[]
   label: (element: CanvasElement) => string
+  impl: Component
   vueCode: (element: CanvasElement) => string[]
 }
 
@@ -73,7 +75,7 @@ export type LibraryProp = {
 export function getComponentById(id: string): LibraryComponent {
   const component = components.find(candidate => candidate.id === id)
   if (!component) {
-    throw new Error(`Unknown library component '${id}`)
+    throw new Error(`Unknown library component '${id}'`)
   }
 
   return component

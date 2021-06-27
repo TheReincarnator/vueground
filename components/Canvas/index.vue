@@ -1,266 +1,25 @@
 <template>
   <div>
     <div
-      v-for="{ id: elementId, props, classes, component, children } in elementViews"
-      :key="elementId"
-      @mousedown.stop="onSelectElement(elementId)"
+      v-for="element in elements"
+      :key="element.id"
+      @mousedown.stop="$emit('select', element.id)"
     >
-      <div
-        v-if="component.id === 'Text'"
-        :class="`text-${props.type} ${props.color}--text ${classes}`"
-        :style="selectedId === elementId ? selectedOutline : ''"
-      >
-        {{ props.text }}
-      </div>
-
-      <VContainer
-        v-else-if="component.id === 'VContainer'"
-        v-bind="props"
-        :class="classes"
-        :style="selectedId === elementId ? selectedOutline : ''"
-      >
-        <VRow
-          v-for="{
-            id: rowId,
-            props: rowProps,
-            classes: rowClasses,
-            children: rowChildren,
-          } in children"
-          :key="rowId"
-          v-bind="rowProps"
-          :class="rowClasses"
-          :style="selectedId === rowId ? selectedOutline : ''"
-          @mousedown.stop="onSelectElement(rowId)"
-        >
-          <VCol
-            v-for="{
-              id: colId,
-              props: colProps,
-              classes: colClasses,
-              children: colChildren,
-            } in rowChildren"
-            :key="colId"
-            v-bind="colProps"
-            :class="colClasses"
-            :style="selectedId === colId ? selectedOutline : ''"
-            @mousedown.stop="onSelectElement(colId)"
-          >
-            <Canvas :elements="colChildren" v-bind="$props" @select="$emit('select', $event)" />
-          </VCol>
-        </VRow>
-      </VContainer>
-
-      <VRow
-        v-else-if="component.id === 'VRow'"
-        :key="elementId"
-        v-bind="props"
-        :class="classes"
-        :style="selectedId === elementId ? selectedOutline : ''"
-        @mousedown.stop="onSelectElement(elementId)"
-      >
-        <VCol
-          v-for="{
-            id: colId,
-            props: colProps,
-            classes: colClasses,
-            children: colChildren,
-          } in children"
-          :key="colId"
-          v-bind="colProps"
-          :class="colClasses"
-          :style="selectedId === colId ? selectedOutline : ''"
-          @mousedown.stop="onSelectElement(colId)"
-        >
-          <Canvas :elements="colChildren" v-bind="$props" @select="$emit('select', $event)" />
-        </VCol>
-      </VRow>
-
-      <VCard
-        v-else-if="component.id === 'VCard'"
-        v-bind="props"
-        :class="classes"
-        :style="selectedId === elementId ? selectedOutline : ''"
-      >
-        <VCardTitle v-if="props.title">
-          <h2 class="text-h2">{{ props.title }}</h2>
-        </VCardTitle>
-        <VCardText>
-          <Canvas :elements="children" v-bind="$props" @select="$emit('select', $event)" />
-        </VCardText>
-      </VCard>
-
-      <VChip
-        v-else-if="component.id === 'VChip'"
-        :x-small="props.size === 'x-small'"
-        :small="props.size === 'small'"
-        :large="props.size === 'large'"
-        :x-large="props.size === 'x-large'"
-        :color="props.color"
-        :outlined="props.outlined"
-        :close="!!props.icon"
-        :close-icon="props.icon"
-        :class="classes"
-        :style="selectedId === elementId ? selectedOutline : ''"
-      >
-        {{ props.label }}
-      </VChip>
-
-      <VIcon
-        v-else-if="component.id === 'VIcon'"
-        v-bind="props"
-        :x-small="props.size === 'x-small'"
-        :small="props.size === 'small'"
-        :large="props.size === 'large'"
-        :x-large="props.size === 'x-large'"
-        :class="classes"
-        :style="selectedId === elementId ? selectedOutline : ''"
-      >
-        {{ props.icon }}
-      </VIcon>
-
-      <VTextField
-        v-else-if="component.id === 'VTextField'"
-        v-bind="props"
-        :class="classes"
-        :style="selectedId === elementId ? selectedOutline : ''"
+      <Component
+        :is="element.component.impl"
+        :element="element"
+        :selected-id="selectedId"
+        @select="$emit('select', $event)"
       />
-
-      <VSelect
-        v-else-if="component.id === 'VSelect'"
-        v-bind="props"
-        :items="props.items ? props.items.split(';').map(item => item.trim()) : []"
-        :class="classes"
-        :style="selectedId === elementId ? selectedOutline : ''"
-      />
-
-      <VCheckbox
-        v-else-if="component.id === 'VCheckbox'"
-        v-bind="props"
-        :input-value="props.selected"
-        :class="classes"
-        :style="selectedId === elementId ? selectedOutline : ''"
-      />
-
-      <VRadioGroup
-        v-else-if="component.id === 'VRadioGroup'"
-        v-bind="props"
-        :column="props.direction === 'column'"
-        :row="props.direction !== 'column'"
-        :class="classes"
-        :style="selectedId === elementId ? selectedOutline : ''"
-      >
-        <Canvas :elements="children" v-bind="$props" @select="$emit('select', $event)" />
-      </VRadioGroup>
-
-      <VRadio
-        v-else-if="component.id === 'VRadio'"
-        v-bind="props"
-        :class="classes"
-        :style="selectedId === elementId ? selectedOutline : ''"
-      />
-
-      <VSwitch
-        v-else-if="component.id === 'VSwitch'"
-        v-bind="props"
-        :input-value="props.selected"
-        :class="classes"
-        :style="selectedId === elementId ? selectedOutline : ''"
-      />
-
-      <VSlider
-        v-else-if="component.id === 'VSlider'"
-        v-bind="props"
-        :class="classes"
-        :style="selectedId === elementId ? selectedOutline : ''"
-      />
-
-      <VBtn
-        v-else-if="component.id === 'VBtn'"
-        v-bind="props"
-        :x-small="props.size === 'x-small'"
-        :small="props.size === 'small'"
-        :large="props.size === 'large'"
-        :x-large="props.size === 'x-large'"
-        :icon="(!!props.iconLeft || !!props.iconRight) && !props.label"
-        :class="classes"
-        :style="selectedId === elementId ? selectedOutline : ''"
-      >
-        <VIcon v-if="props.iconLeft" :left="!!props.label">{{ props.iconLeft }}</VIcon>
-        {{ props.label }}
-        <VIcon v-if="props.iconRight" :right="!!props.label">{{ props.iconRight }}</VIcon>
-      </VBtn>
-
-      <VList
-        v-else-if="component.id === 'VList'"
-        v-bind="props"
-        :class="classes"
-        :style="selectedId === elementId ? selectedOutline : ''"
-      >
-        <Canvas :elements="children" v-bind="$props" @select="$emit('select', $event)" />
-      </VList>
-
-      <VTable
-        v-else-if="component.id === 'VTable'"
-        v-bind="props"
-        :class="classes"
-        :style="selectedId === elementId ? selectedOutline : ''"
-      >
-        <Canvas :elements="children" v-bind="$props" @select="$emit('select', $event)" />
-      </VTable>
-
-      <div v-else class="text--red" :style="selectedId === elementId ? selectedOutline : ''">
-        Unknown design component '{{ component.id }}'
-      </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType } from '@nuxtjs/composition-api'
+import { defineComponent, PropType } from '@nuxtjs/composition-api'
 import { Fragment } from 'vue-fragment'
 
-import { LibraryComponent } from '~/model/component'
-import { CanvasElement, getElementById } from '~/model/element'
-import { JsonObject, JsonValue } from '~/types/json'
-
-export interface ElementView {
-  id: number
-  component: LibraryComponent
-  props: JsonObject
-  children: ElementView[]
-  classes: string
-}
-
-function convertMarginPadding(value?: JsonValue): string {
-  let valueNumber
-  if (typeof value === 'string') {
-    valueNumber = parseInt(value)
-  } else if (typeof value === 'number') {
-    valueNumber = value
-  } else {
-    return ''
-  }
-
-  return valueNumber < 0 ? 'n' + String(-valueNumber) : String(valueNumber)
-}
-
-function createElementView(element: CanvasElement): ElementView {
-  const classes =
-    ` mt-${convertMarginPadding(element.props.mt)}` +
-    ` mb-${convertMarginPadding(element.props.mb)}` +
-    ` ml-${convertMarginPadding(element.props.ml)}` +
-    ` mr-${convertMarginPadding(element.props.mr)}` +
-    ` pt-${convertMarginPadding(element.props.pt)}` +
-    ` pb-${convertMarginPadding(element.props.pb)}` +
-    ` pl-${convertMarginPadding(element.props.pl)}` +
-    ` pr-${convertMarginPadding(element.props.pr)}`
-
-  return {
-    ...element,
-    children: element.children.map(child => createElementView(child)),
-    classes,
-  }
-}
+import { CanvasElement } from '~/model/element'
 
 export default defineComponent({
   name: 'Canvas',
@@ -272,8 +31,8 @@ export default defineComponent({
       type: Array as PropType<CanvasElement[]>,
       required: true,
     },
-    selectedElement: {
-      type: Object as PropType<CanvasElement>,
+    selectedId: {
+      type: Number,
       default: null,
     },
     hoverElement: {
@@ -281,24 +40,11 @@ export default defineComponent({
       default: null,
     },
   },
-  setup(props, { emit }) {
-    const elementViews = computed<ElementView[]>(() =>
-      props.elements.map(element => createElementView(element)),
-    )
-
-    const selectedId = computed(() => props.selectedElement?.id)
-    const selectedOutline = 'outline:3px solid #e91e63'
-
-    const onSelectElement = (id: number) => {
-      emit('select', getElementById(props.elements, id))
-    }
-
-    return {
-      elementViews,
-      selectedId,
-      selectedOutline,
-      onSelectElement,
-    }
-  },
 })
 </script>
+
+<style scoped>
+* >>> .vueground-selected {
+  outline: 3px solid #e91e63;
+}
+</style>

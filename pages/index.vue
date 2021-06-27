@@ -35,11 +35,7 @@
     </div>
     <div class="vg-page-main" @mousedown.stop="onSelectElement(null)">
       <div v-if="elements.value.length" class="vg-page-canvas pa-4">
-        <Canvas
-          :elements="elements.value"
-          :selected-element="selectedElement"
-          @select="onSelectElement"
-        />
+        <Canvas :elements="elements.value" :selected-id="selectedId" @select="onSelectElement" />
       </div>
       <div v-else class="vg-page-canvas py-4 px-6">
         <div class="text-h1">Welcome to VueGround</div>
@@ -63,7 +59,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, reactive, ref } from '@nuxtjs/composition-api'
+import { defineComponent, onMounted, reactive, ref, computed } from '@nuxtjs/composition-api'
 import { saveAs } from 'file-saver'
 import { format } from 'date-fns'
 
@@ -76,6 +72,7 @@ import {
   cloneElement,
   serializeModel,
   parseModel,
+  getElementById,
 } from '~/model/element'
 import { LibraryComponent, isSupportingComponent } from '~/model/component'
 
@@ -110,6 +107,8 @@ export default defineComponent({
     const selectedElement = ref<CanvasElement | null>(null)
     const clipboard = ref<CanvasElement | null>(null)
 
+    const selectedId = computed(() => selectedElement.value?.id)
+
     const onNewModel = async () => {
       if (
         !(await confirmDialog.open('New model', {
@@ -140,8 +139,8 @@ export default defineComponent({
       saveAs(blob, `vueground-${dateString}.vgm`)
     }
 
-    const onSelectElement = (element: CanvasElement | null) => {
-      selectedElement.value = element
+    const onSelectElement = (id: number | null) => {
+      selectedElement.value = id ? getElementById(elements.value, id) : null
     }
 
     const addElementTo = (element: CanvasElement, parent: CanvasElement | null) => {
@@ -266,6 +265,7 @@ export default defineComponent({
       elements,
       openElementIds,
       selectedElement,
+      selectedId,
       onNewModel,
       onLoadModel,
       onSaveModel,

@@ -35,23 +35,6 @@ import { computed, defineComponent, PropType } from '@nuxtjs/composition-api'
 
 import { CanvasElement } from '~/model/element'
 
-function findElement(items: CanvasElement[], id: number): CanvasElement | null {
-  let match: CanvasElement | null = null
-
-  items.forEach(item => {
-    if (item.id === id) {
-      match = item
-    }
-
-    const childMatch = findElement(item.children, id)
-    if (childMatch) {
-      match = childMatch
-    }
-  })
-
-  return match
-}
-
 export default defineComponent({
   name: 'Tree',
   components: {},
@@ -71,7 +54,7 @@ export default defineComponent({
   },
   setup(props, { emit }) {
     const onSelectElements = (selected: number[]) => {
-      emit('select', selected.length === 1 ? findElement(props.elements, selected[0]) : null)
+      emit('select', selected.length === 1 ? selected[0] : null)
     }
 
     const selectedElementIds = computed<number[]>(() =>
