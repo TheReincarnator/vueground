@@ -335,6 +335,7 @@ export default defineComponent({
 
 .vg-page-canvas {
   flex: 1 0 0;
+  overflow: auto;
 }
 
 .vg-page-vuecode {

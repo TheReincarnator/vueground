@@ -5,8 +5,8 @@ export interface LibraryComponent {
   id: string
   name: string
   icon: string
-  toplevel: boolean
-  children: 'toplevel' | string[]
+  tags: string[]
+  children: string[]
   props: LibraryProp[]
   label: (element: CanvasElement) => string
   vueCode: (element: CanvasElement) => string[]
@@ -45,10 +45,7 @@ export type LibraryProp = {
       max: number
     }
   | { type: 'cols'; default: number | 'auto' | null }
-  | {
-      type: 'margin-x'
-      default: number | 'auto' | null
-    }
+  | { type: 'margin-x'; default: number | 'auto' | null }
   | {
       type: 'margin-y'
       default: number | null
@@ -83,10 +80,12 @@ export function getComponentById(id: string): LibraryComponent {
 }
 
 export function getPermittedComponents(container: LibraryComponent | null): LibraryComponent[] {
-  if (container && container.children !== 'toplevel') {
-    return container.children.map(childId => getComponentById(childId))
-  }
-  return components.filter(component => component.toplevel)
+  return components.filter(
+    component =>
+      (!container && component.tags.includes('toplevel')) ||
+      container?.children.includes(component.id) ||
+      container?.children.find(childId => component.tags.includes(childId)),
+  )
 }
 
 export function isSupportingComponent(

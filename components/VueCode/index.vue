@@ -67,7 +67,7 @@ export default defineComponent({
   font-size: 12px;
   line-height: 1.2;
   min-height: 50px;
-  max-height: 250px;
+  max-height: 150px;
   overflow-y: auto;
 }
 </style>

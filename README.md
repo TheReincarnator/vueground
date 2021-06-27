@@ -4,7 +4,10 @@ A **UX design tool** using your **production Vue components** to edit and render
 
 More specifically, as a living example, a visual playground for [Material](https://material.io/design) designs made with [Vuetify](https://vuetifyjs.com/).
 
-TODO: Image of pet shop
+<br/>
+<img src="./example/backoffice-screenshot.png" alt="Screenshot of VueGround with the Backoffice example" width="800"/>
+<br/>
+<br/>
 
 ## Aim and background
 
@@ -34,7 +37,7 @@ yarn install
 yarn dev
 ```
 
-Then open [this example](./example/pet-shop.vgm) in VueGround. You will see a pet shop made with Vuetify. Play around and enjoy.
+Then open [this example](./example/backoffice.vgm) in VueGround. You will see a Backoffice page made with Vuetify. Play around and enjoy.
 
 ### Production build (to host somewhere)
 
@@ -77,7 +80,7 @@ To activate/use the new Library, please change the reference in [library/index.t
 
 ## Example model
 
-In (example)[./example] you'll find an example pet shop made with the Vuetify example Library. Just start VueGround or use [this hosted version](https://vueground.thomasjacob.de), and click "Load".
+In (example)[./example] you'll find an example backoffice page made with the Vuetify example Library. Just start VueGround or use [this hosted version](https://vueground.thomasjacob.de), and click "Load".
 
 ## Hosted Vuetify VueGround
 

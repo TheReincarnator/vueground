@@ -6,7 +6,7 @@ export const components: LibraryComponent[] = [
     id: 'Text',
     name: 'Text',
     icon: 'mdi-text',
-    toplevel: true,
+    tags: ['toplevel', 'main'],
     children: [],
     props: [
       {
@@ -55,9 +55,9 @@ export const components: LibraryComponent[] = [
   },
   {
     id: 'VContainer',
-    name: 'Grid',
-    icon: 'mdi-grid-large',
-    toplevel: true,
+    name: 'Container',
+    icon: 'mdi-page-layout-body',
+    tags: ['toplevel'],
     children: ['VRow'],
     props: [
       {
@@ -84,7 +84,7 @@ export const components: LibraryComponent[] = [
     id: 'VRow',
     name: 'Row',
     icon: 'mdi-table-row',
-    toplevel: false,
+    tags: [],
     children: ['VCol'],
     props: [
       {
@@ -133,8 +133,8 @@ export const components: LibraryComponent[] = [
     id: 'VCol',
     name: 'Column',
     icon: 'mdi-table-column',
-    toplevel: false,
-    children: 'toplevel',
+    tags: [],
+    children: ['main', 'VRow'],
     props: [
       {
         id: 'cols',
@@ -160,8 +160,8 @@ export const components: LibraryComponent[] = [
     id: 'VCard',
     name: 'Card',
     icon: 'mdi-card-account-details',
-    toplevel: true,
-    children: 'toplevel',
+    tags: ['toplevel', 'main'],
+    children: ['VContainer', 'main'],
     props: [
       {
         id: 'color',
@@ -202,7 +202,7 @@ export const components: LibraryComponent[] = [
       `  </VCardTitle>`,
       `  <VCardText>`,
       `    {{children}}`,
-      `  <VCardText>`,
+      `  </VCardText>`,
       `</VCard>`,
     ],
   },
@@ -210,7 +210,7 @@ export const components: LibraryComponent[] = [
     id: 'VChip',
     name: 'Chip',
     icon: 'mdi-label',
-    toplevel: true,
+    tags: ['toplevel', 'main'],
     children: [],
     props: [
       {
@@ -271,7 +271,7 @@ export const components: LibraryComponent[] = [
     id: 'VIcon',
     name: 'Icon',
     icon: 'mdi-image-filter-vintage',
-    toplevel: true,
+    tags: ['toplevel', 'main'],
     children: [],
     props: [
       {
@@ -322,7 +322,7 @@ export const components: LibraryComponent[] = [
     id: 'VTextField',
     name: 'Text field',
     icon: 'mdi-form-textbox',
-    toplevel: true,
+    tags: ['toplevel', 'main'],
     children: [],
     props: [
       {
@@ -380,7 +380,7 @@ export const components: LibraryComponent[] = [
     id: 'VSelect',
     name: 'Select',
     icon: 'mdi-form-dropdown',
-    toplevel: true,
+    tags: ['toplevel', 'main'],
     children: [],
     props: [
       {
@@ -407,7 +407,7 @@ export const components: LibraryComponent[] = [
       {
         id: 'items',
         name: 'Items',
-        type: 'json',
+        type: 'text',
         default: [
           'Alabama',
           'Alaska',
@@ -468,7 +468,8 @@ export const components: LibraryComponent[] = [
           'West Virginia',
           'Wisconsin',
           'Wyoming',
-        ],
+        ].join('; '),
+        required: false,
       },
       {
         id: 'outlined',
@@ -516,7 +517,7 @@ export const components: LibraryComponent[] = [
     id: 'VCheckbox',
     name: 'Checkbox',
     icon: 'mdi-checkbox-marked-outline',
-    toplevel: true,
+    tags: ['toplevel', 'main'],
     children: [],
     props: [
       {
@@ -571,7 +572,7 @@ export const components: LibraryComponent[] = [
     id: 'VRadioGroup',
     name: 'Radio group',
     icon: 'mdi-radiobox-marked',
-    toplevel: true,
+    tags: ['toplevel', 'main'],
     children: ['VRadio'],
     props: [
       {
@@ -613,7 +614,7 @@ export const components: LibraryComponent[] = [
     id: 'VRadio',
     name: 'Radio',
     icon: 'mdi-radiobox-marked',
-    toplevel: false,
+    tags: [],
     children: [],
     props: [
       {
@@ -646,7 +647,7 @@ export const components: LibraryComponent[] = [
     id: 'VSwitch',
     name: 'Switch',
     icon: 'mdi-toggle-switch',
-    toplevel: true,
+    tags: ['toplevel', 'main'],
     children: [],
     props: [
       {
@@ -694,7 +695,7 @@ export const components: LibraryComponent[] = [
     id: 'VSlider',
     name: 'Slider',
     icon: 'mdi-minus',
-    toplevel: true,
+    tags: ['toplevel', 'main'],
     children: [],
     props: [
       {
@@ -766,7 +767,7 @@ export const components: LibraryComponent[] = [
     id: 'VBtn',
     name: 'Button',
     icon: 'mdi-gesture-tap-button',
-    toplevel: true,
+    tags: ['toplevel', 'main'],
     children: [],
     props: [
       {
@@ -859,7 +860,7 @@ export const components: LibraryComponent[] = [
     id: 'VList',
     name: 'List',
     icon: 'mdi-format-list-bulleted',
-    toplevel: true,
+    tags: ['toplevel', 'main'],
     children: [],
     props: [
       {
@@ -942,7 +943,7 @@ export const components: LibraryComponent[] = [
     id: 'VTable',
     name: 'Table',
     icon: 'mdi-table',
-    toplevel: true,
+    tags: ['toplevel', 'main'],
     children: [],
     props: [
       {

@@ -50,6 +50,31 @@
         </VRow>
       </VContainer>
 
+      <VRow
+        v-else-if="component.id === 'VRow'"
+        :key="elementId"
+        v-bind="props"
+        :class="classes"
+        :style="selectedId === elementId ? selectedOutline : ''"
+        @mousedown.stop="onSelectElement(elementId)"
+      >
+        <VCol
+          v-for="{
+            id: colId,
+            props: colProps,
+            classes: colClasses,
+            children: colChildren,
+          } in children"
+          :key="colId"
+          v-bind="colProps"
+          :class="colClasses"
+          :style="selectedId === colId ? selectedOutline : ''"
+          @mousedown.stop="onSelectElement(colId)"
+        >
+          <Canvas :elements="colChildren" v-bind="$props" @select="$emit('select', $event)" />
+        </VCol>
+      </VRow>
+
       <VCard
         v-else-if="component.id === 'VCard'"
         v-bind="props"
@@ -103,6 +128,7 @@
       <VSelect
         v-else-if="component.id === 'VSelect'"
         v-bind="props"
+        :items="props.items ? props.items.split(';').map(item => item.trim()) : []"
         :class="classes"
         :style="selectedId === elementId ? selectedOutline : ''"
       />
