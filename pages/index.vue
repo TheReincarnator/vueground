@@ -38,13 +38,38 @@
         <Canvas :elements="elements.value" :selected-id="selectedId" @select="onSelectElement" />
       </div>
       <div v-else class="vg-page-canvas py-4 px-6">
-        <div class="text-h1">Welcome to VueGround</div>
-        <div class="text-subtitle-1">
+        <h1 class="text-h1">Welcome to VueGround</h1>
+        <div class="text-h4">
           A UX design tool and visual playground for Vuetify projects.
         </div>
-        <div class="text-body-1 mt-4">
-          Use the Design Library to start sketching.
+
+        <div class="mt-4 mb-0">
+          <VBtn
+            color="primary"
+            href="https://github.com/TheReincarnator/vueground"
+            target="_blank"
+            class="white--text"
+          >
+            <VIcon small left>mdi-github</VIcon>
+            GitHub
+          </VBtn>
+          <VBtn
+            color="secondary"
+            href="https://twitter.com/TheReincarnator"
+            target="_blank"
+            class="white--text ml-2"
+          >
+            <VIcon small left>mdi-twitter</VIcon>
+            Follow
+          </VBtn>
         </div>
+
+        <h2 class="text-h2 mt-6 mb-1">Get started</h2>
+        <p class="text-body-1">
+          Click a
+          <VIcon>mdi-plus</VIcon>
+          icon in the Design Library to start sketching.
+        </p>
       </div>
       <VSheet color="grey darken-2">
         <VueCode :elements="elements.value" />
